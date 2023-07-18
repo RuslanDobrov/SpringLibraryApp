@@ -10,13 +10,18 @@
 
     <p th:if="${book.getPerson_id() == -1}">Эта книга совбодна. Кому назначить ее?</p>
 
-    <form th:method="PATCH" th:if="${book.getPerson_id() == -1}" th:action="@{/books/addPerson}">
-        <label for="person">Выберите человека:</label>
-        <select th:object="${person}" th:field="*{id}" id="person">
+    <form th:method="PATCH" th:if="${book.getPerson_id() == -1}" th:action="@{/books/{id}/takeOn(id=${book.getId()})}">
+        <label for="newPerson">Выберите человека:</label>
+        <select th:object="${person}" th:field="*{id}" id="newPerson">
             <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getName()}"/>
         </select>
 
         <input type="submit" value="Назначить книгу" />
+    </form>
+
+    <form th:method="PATCH" th:if="${book.getPerson_id() != -1}" th:action="@{/books/{id}/takeOff(id=${book.getId()})}">
+        <p />
+        <input type="submit" value="Освободить книгу" />
     </form>
 
     <hr/>

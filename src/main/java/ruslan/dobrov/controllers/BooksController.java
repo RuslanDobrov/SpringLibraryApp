@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ruslan.dobrov.dao.BookDAO;
-import ruslan.dobrov.dao.PersonDAO;
 import ruslan.dobrov.models.Book;
 import ruslan.dobrov.util.BookValidator;
 
@@ -73,6 +72,12 @@ public class BooksController {
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
         bookDAO.delete(id);
+        return "redirect:/books";
+    }
+
+    @PatchMapping("/{id}/release")
+    public String takeOff(@PathVariable("id") int id) {
+        bookDAO.takeOff(id);
         return "redirect:/books";
     }
 }
