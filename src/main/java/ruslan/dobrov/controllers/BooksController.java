@@ -9,6 +9,7 @@ import ruslan.dobrov.dao.BookDAO;
 import ruslan.dobrov.models.Book;
 import ruslan.dobrov.util.BookValidator;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
@@ -75,9 +76,15 @@ public class BooksController {
         return "redirect:/books";
     }
 
-    @PatchMapping("/{id}/release")
+    @PatchMapping("/{id}/takeOff")
     public String takeOff(@PathVariable("id") int id) {
         bookDAO.takeOff(id);
+        return "redirect:/books";
+    }
+
+    @PostMapping("/{id}/takeOn")
+    public String takeOn(@PathVariable("id") int book_id, HttpServletRequest person) {
+        bookDAO.takeOn(book_id, Integer.parseInt(person.getParameter("person_id")));
         return "redirect:/books";
     }
 }

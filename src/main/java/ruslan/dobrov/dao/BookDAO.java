@@ -67,4 +67,8 @@ public class BookDAO {
     public void takeOff(int id) {
         jdbcTemplate.update("UPDATE Book SET person_id = -1 WHERE id = ?", id);
     }
+
+    public void takeOn(int bookId, int personId) {
+        jdbcTemplate.update("UPDATE Book SET person_id = ? WHERE id = ?", personId, bookId);
+    }
 }

@@ -10,9 +10,9 @@
 
     <p th:if="${book.getPerson_id() == -1}">Эта книга совбодна. Кому назначить ее?</p>
 
-    <form th:method="PATCH" th:if="${book.getPerson_id() == -1}" th:action="@{/books/{id}/takeOn(id=${book.getId()})}">
-        <label for="newPerson">Выберите человека:</label>
-        <select th:object="${person}" th:field="*{id}" id="newPerson">
+    <form th:method="POST" th:if="${book.getPerson_id() == -1}" th:action="@{/books/{id}/takeOn(id=${book.getId()})}">
+        <label>Выберите человека:</label>
+        <select th:name="person_id">
             <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getName()}"/>
         </select>
 
