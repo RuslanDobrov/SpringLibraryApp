@@ -8,26 +8,29 @@
 
     <p th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"/>
 
-    <p th:if="${book.getPerson_id() == -1}">Эта книга совбодна. Кому назначить ее?</p>
+    <div th:if="${owner}">
+        <span>Книга сейчас у: </span>
+        <span th:text="${owner.getFullName()}"></span>
+        <form th:method="PATCH" th:action="@{/books/{id}/release(id=${book.getId()})}">
+            <input type="submit" value="Освободить книгу">
+        </form>
+    </div>
 
-    <form th:method="POST" th:if="${book.getPerson_id() == -1}" th:action="@{/books/{id}/takeOn(id=${book.getId()})}">
-        <label>Выберите человека:</label>
-        <select th:name="person_id">
-            <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getName()}"/>
-        </select>
-
-        <input type="submit" value="Назначить книгу" />
-    </form>
-
-    <form th:method="PATCH" th:if="${book.getPerson_id() != -1}" th:action="@{/books/{id}/takeOff(id=${book.getId()})}">
-        <p />
-        <input type="submit" value="Освободить книгу" />
-    </form>
+    <div th:if="${people}">
+        <span>Эта книга совбодна. Кому назначить ее?</span>
+        <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}">
+            <label for="person">Выберите человека:</label>
+            <select th:object="${person}" th:field="*{id}" id="person">
+                <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getFullName()}"/>
+            </select>
+            <input type="submit" value="Назначить книгу" />
+        </form>
+    </div>
 
     <hr/>
 
-    <form style="margin-bottom: 5px" th:action="@{/books/{id}/edit(id=${book.getId()})}">
-        <button>Редактировать</button>
+    <form th:method="GET" th:action="@{/books/{id}/edit(id=${book.getId()})}">
+        <input type="submit" value="Редактировать"/>
     </form>
     <form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
         <input type="submit" value="Удалить"/>

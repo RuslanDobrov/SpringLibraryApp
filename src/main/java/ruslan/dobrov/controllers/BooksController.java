@@ -6,23 +6,23 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ruslan.dobrov.dao.BookDAO;
+import ruslan.dobrov.dao.PersonDAO;
 import ruslan.dobrov.models.Book;
-import ruslan.dobrov.util.BookValidator;
-
-import javax.servlet.http.HttpServletRequest;
+import ruslan.dobrov.models.Person;
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/books")
 public class BooksController {
 
     private final BookDAO bookDAO;
-    private final BookValidator bookValidator;
+    private final PersonDAO personDAO;
 
     @Autowired
-    public BooksController(BookDAO bookDAO, BookValidator bookValidator) {
+    public BooksController(BookDAO bookDAO, PersonDAO personDAO) {
         this.bookDAO = bookDAO;
-        this.bookValidator = bookValidator;
+        this.personDAO = personDAO;
     }
 
     @GetMapping()
@@ -32,10 +32,13 @@ public class BooksController {
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
+    public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
         model.addAttribute("book", bookDAO.show(id));
-        model.addAttribute("person", bookDAO.showBookWithPerson(id));
-        model.addAttribute("people", bookDAO.getPeople());
+        Optional<Person> bookOwner = bookDAO.getBookOwner(id);
+        if (bookOwner.isPresent())
+            model.addAttribute("owner", bookOwner.get());
+        else
+            model.addAttribute("people", personDAO.index());
         return "books/show";
     }
 
@@ -47,7 +50,6 @@ public class BooksController {
     @PostMapping()
     public String create(@ModelAttribute("book") @Valid Book book,
                          BindingResult bindingResult) {
-        bookValidator.validate(book, bindingResult);
         if (bindingResult.hasErrors())
             return "books/new";
         bookDAO.save(book);
@@ -76,15 +78,15 @@ public class BooksController {
         return "redirect:/books";
     }
 
-    @PatchMapping("/{id}/takeOff")
-    public String takeOff(@PathVariable("id") int id) {
-        bookDAO.takeOff(id);
-        return "redirect:/books";
+    @PatchMapping("/{id}/release")
+    public String release(@PathVariable("id") int id) {
+        bookDAO.release(id);
+        return "redirect:/books/" + id;
     }
 
-    @PostMapping("/{id}/takeOn")
-    public String takeOn(@PathVariable("id") int book_id, HttpServletRequest person) {
-        bookDAO.takeOn(book_id, Integer.parseInt(person.getParameter("person_id")));
-        return "redirect:/books";
+    @PatchMapping("/{id}/assign")
+    public String assign(@PathVariable("id") int id, @ModelAttribute("person") Person selectedPerson) {
+        bookDAO.assign(id, selectedPerson);
+        return "redirect:/books/" + id;
     }
 }

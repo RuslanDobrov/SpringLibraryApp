@@ -8,20 +8,19 @@ import javax.validation.constraints.Size;
 public class Person {
     private int id;
 
-    @NotEmpty(message = "Имя не может быть пустым")
+    @NotEmpty(message = "Имя не должно быть пустым")
     @NotNull
-    @Size(min = 2, max = 50, message = "Имя дожлно быть от 2 до 50 символов")
-    private String name;
+    @Size(min = 2, max = 100, message = "Имя дожлно быть от 2 до 100 символов длиной")
+    private String fullName;
 
     @Min(value = 1900, message = "Год рождения не может быть меньше 1900 года")
-    private int year;
+    private int yearOfBirth;
 
     public Person() {}
 
-    public Person(int id, String name, int year) {
-        this.id = id;
-        this.name = name;
-        this.year = year;
+    public Person(String fullName, int yearOfBirth) {
+        this.fullName = fullName;
+        this.yearOfBirth = yearOfBirth;
     }
 
     public int getId() {
@@ -32,19 +31,19 @@ public class Person {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public int getYear() {
-        return year;
+    public int getYearOfBirth() {
+        return yearOfBirth;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setYearOfBirth(int yearOfBirth) {
+        this.yearOfBirth = yearOfBirth;
     }
 }

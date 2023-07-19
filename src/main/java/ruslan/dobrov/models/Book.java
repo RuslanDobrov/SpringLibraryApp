@@ -9,25 +9,22 @@ public class Book {
 
     private int id;
 
-    @NotEmpty(message = "Название книги не может быть пустым")
+    @NotEmpty(message = "Название книги не должно быть пустым")
     @NotNull
-    @Size(min = 1, max = 50, message = "Название дожлно быть от 1 до 50 символов")
+    @Size(min = 1, max = 100, message = "Название дожлно быть от 1 до 100 символов длиной")
     private String title;
 
-    @NotEmpty(message = "Автор не может быть пустым")
+    @NotEmpty(message = "Автор не должен быть пустым")
     @NotNull
-    @Size(min = 1, max = 100, message = "Имя дожлно быть от 1 до 100 символов")
+    @Size(min = 1, max = 100, message = "Имя дожлно быть от 1 до 100 символов длиной")
     private String author;
 
-    @Min(value = 0, message = "Год издания не может быть отрицательным")
+    @Min(value = 0, message = "Год издания болжен быть больше, чем 0")
     private int year;
-
-    private int person_id;
 
     public Book() {}
 
-    public Book(int id, String title, String author, int year) {
-        this.id = id;
+    public Book(String title, String author, int year) {
         this.title = title;
         this.author = author;
         this.year = year;
@@ -63,13 +60,5 @@ public class Book {
 
     public void setYear(int year) {
         this.year = year;
-    }
-
-    public int getPerson_id() {
-        return person_id;
-    }
-
-    public void setPerson_id(int person_id) {
-        this.person_id = person_id;
     }
 }
