@@ -25,6 +25,13 @@ body {
   max-width: 42em;
 }
 
+.details {
+  text-align: left;
+}
+
+.details h1 {
+  text-align: center;
+}
 
 /*
  * Header

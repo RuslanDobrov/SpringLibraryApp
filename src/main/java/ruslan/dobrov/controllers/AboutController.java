@@ -17,5 +17,4 @@ public class AboutController {
     public String technologiesPage() {
         return "about/technologies";
     }
-
 }

@@ -6,167 +6,58 @@
     <meta name="description" content="Spring Framework Library Application">
     <meta name="author" content="Ruslan Dobrov">
     <title>Spring Framework Library Application</title>
-
-    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-
-        .b-example-divider {
-            width: 100%;
-            height: 3rem;
-            background-color: rgba(0, 0, 0, .1);
-            border: solid rgba(0, 0, 0, .15);
-            border-width: 1px 0;
-            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-        }
-
-        .b-example-vr {
-            flex-shrink: 0;
-            width: 1.5rem;
-            height: 100vh;
-        }
-
-        .bi {
-            vertical-align: -.125em;
-            fill: currentColor;
-        }
-
-        .nav-scroller {
-            position: relative;
-            z-index: 2;
-            height: 2.75rem;
-            overflow-y: hidden;
-        }
-
-        .nav-scroller .nav {
-            display: flex;
-            flex-wrap: nowrap;
-            padding-bottom: 1rem;
-            margin-top: -1px;
-            overflow-x: auto;
-            text-align: center;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .btn-bd-primary {
-            --bd-violet-bg: #712cf9;
-            --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-
-            --bs-btn-font-weight: 600;
-            --bs-btn-color: var(--bs-white);
-            --bs-btn-bg: var(--bd-violet-bg);
-            --bs-btn-border-color: var(--bd-violet-bg);
-            --bs-btn-hover-color: var(--bs-white);
-            --bs-btn-hover-bg: #6528e0;
-            --bs-btn-hover-border-color: #6528e0;
-            --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-            --bs-btn-active-color: var(--bs-btn-hover-color);
-            --bs-btn-active-bg: #5a23c8;
-            --bs-btn-active-border-color: #5a23c8;
-        }
-
-        .bd-mode-toggle {
-            z-index: 1500;
-        }
-    </style>
-
-    <link href="../../../resources/css/cover.css" rel="stylesheet">
+    <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/resources/css/cover.css" rel="stylesheet">
 </head>
 <body class="d-flex h-100 text-center text-bg-dark">
-
-<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-    <header class="mb-auto">
+<div class="w-100 h-100">
+    <header class="cover-container d-flex p-3 mx-auto flex-column mb-auto">
         <div>
             <h3 class="float-md-start mb-0">Spring Library Application</h3>
             <nav class="nav nav-masthead justify-content-center float-md-end">
-                <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="#">About</a>
-                <a class="nav-link fw-bold py-1 px-0" href="http://localhost:8080/people">People</a>
-                <a class="nav-link fw-bold py-1 px-0" href="http://localhost:8080/books">Books</a>
+                <a class="nav-link fw-bold py-1 px-0" href="/">About</a>
+                <a class="nav-link fw-bold py-1 px-0" href="/people">People</a>
+                <a class="nav-link fw-bold py-1 px-0" href="/books">Books</a>
             </nav>
         </div>
     </header>
-
-    <main class="px-3">
-        <h1>What is this "Spring Library Application" about?</h1>
-        <p class="lead">
-            The local library wants to switch to digital book counting, I have implemented a web application for them.
-            Librarians have the opportunity to register readers, give them books and release the books after the reader returns
-            book back to the library.
-        </p>
-        <p class="lead">To start using the app, enter books in the "Books" tab and enter people in the "People" tab</p>
-        <h2>Functionality:</h2>
-        <ul class="lead">
-            <li>pages for adding, changing and deleting a person</li>
-            <li>pages for adding, editing, and deleting a book</li>
-            <li>page with a list of all people (people are clickable - when clicked, go to person's page)</li>
-            <li>page with a list of all books (books are clickable - when clicked, go to book page</li>
-            <li>a person's page showing the values of his fields and a list of the books he has taken.
-                If the person hasn't picked up any books, the text "Person haven't picked up any books yet.</li>
-            <li>Page of a book showing the values of the margins of that book and the person's name, who took this book.
-                If this book has not been borrowed by anyone, the text "This the book is free"</li>
-            <li>On the book page, if the book is taken by a person, a button appears next to his name "Release book".
-                This button is pressed by the librarian when the reader returns this book back to the library.
-                After pressing this button the book again becomes loose and disappears from a person's book list</li>
-            <li>On the book page, if the book is free, a drop-down list appears with all people and the "Assign Book" button.
-                This button is pressed by the librarian when the reader wants to take this book home.
-                After pressing this button, the book starts to belong to the selected person and appears in his list books</li>
-            <li>All input fields are validated - using @Valid and Spring Validator</li>
-        </ul>
-
-        <h2>Technologies:</h2>
-        <ul class="lead">
-            <li>Java 19</li>
-            <li>PostgreSQL 15</li>
-            <li>Spring 5: Boot, Data, Context, Web, MVC, Validator</li>
-            <li>Bootstrap 5.3</li>
-            <li>Thymeleaf</li>
-            <li>HTML, CSS, JavaScript</li>
-            <li>Maven</li>
-            <li>Tomcat 9.0.73</li>
-            <li>GitHub</li>
-        </ul>
-
-
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <p class="lead d-inline-block me-lg-2">
-                        <a href="#" class="btn btn-lg btn-light fw-bold border-white bg-white">Technologies</a>
-                    </p>
-                    <p class="lead d-inline-block">
-                        <a href="#" class="btn btn-lg btn-light fw-bold border-white bg-white">Functionality</a>
-                    </p>
-                </div>
+    <main class="px-3 mt-5 details">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-2"></div>
+            <div class="col-lg-6 col-md-6 col-sm-8">
+                <h1>Technologies:</h1>
+                <ul class="lead">
+                    <li>Java 19</li>
+                    <li>PostgreSQL 15</li>
+                    <li>Spring 5: Boot, Data, Context, Web, MVC, Validator</li>
+                    <li>Bootstrap 5.3</li>
+                    <li>Thymeleaf</li>
+                    <li>HTML, CSS, JavaScript</li>
+                    <li>Maven</li>
+                    <li>Tomcat 9.0.73</li>
+                    <li>GitHub</li>
+                </ul>
             </div>
+            <div class="col-lg-3 col-md-3 col-sm-2"></div>
         </div>
 
-
-
-
-
-
     </main>
-
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <p class="lead d-inline-block">
+                    <a href="/" class="btn btn-lg btn-light fw-bold border-white bg-white">About</a>
+                </p>
+                <p class="lead d-inline-block me-lg-2">
+                    <a href="functionality.html" class="btn btn-lg btn-light fw-bold border-white bg-white">Functionality</a>
+                </p>
+            </div>
+        </div>
+    </div>
     <footer class="mt-auto text-white-50">
-        <p>Created by <a href="https://www.linkedin.com/in/ruslan-dobrov/" class="text-white">Ruslan Dobrov</a>, 2023
-        </p>
+        <p>Created by <a href="https://www.linkedin.com/in/ruslan-dobrov/" class="text-white">Ruslan Dobrov</a>, 2023</p>
     </footer>
 </div>
-<script src="../../../resources/js/bootstrap.bundle.min.js"></script>
-
+<script src="/resources/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
