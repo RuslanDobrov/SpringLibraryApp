@@ -1,20 +1,84 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!doctype html>
+<html lang="en" class="h-100" data-bs-theme="auto">
 <head>
-    <meta charset="UTF-8">
-    <title>Все книги</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Spring Framework Library Application">
+    <meta name="author" content="Ruslan Dobrov">
+    <title>All books</title>
+    <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/resources/css/cover.css" rel="stylesheet">
 </head>
-<body>
-
-<div th:each="book : ${books}">
-    <a th:href="@{/books/{id}(id=${book.getId()})}"
-       th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"/>
+<body class="d-flex h-100 text-center text-bg-dark">
+<div class="w-100 h-100">
+    <header class="cover-container d-flex p-3 mx-auto flex-column mb-auto">
+        <div>
+            <h3 class="float-md-start mb-0">Spring Library Application</h3>
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+                <a class="nav-link fw-bold py-1 px-0" href="/people">People</a>
+                <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="/books">Books</a>
+                <a class="nav-link fw-bold py-1 px-0" href="/">About</a>
+            </nav>
+        </div>
+    </header>
+    <main class="px-3 details">
+        <div class="row mt-5">
+            <div class="col-lg-2 col-md-2 col-sm-1"></div>
+            <div class="col-lg-8 col-md-8 col-sm-10">
+                <div class="d-grid gap-2 lead w-100 mt-2" th:each="book : ${books}">
+                    <a class="btn btn-secondary rounded-pill px-3" type="button" th:href="@{/books/{id}(id=${book.getId()})}"
+                            th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"/>
+<!--                    <a th:href="@{/books/{id}(id=${book.getId()})}"-->
+<!--                       th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"/>-->
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-1"></div>
+        </div>
+        <div class="row">
+            <div class="col text-center mt-5">
+                <p class="lead d-inline-block">
+                    <a href="/books/new" class="btn btn-lg btn-light fw-bold border-white bg-white">Add book</a>
+                </p>
+            </div>
+        </div>
+    </main>
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            <div class="col">-->
+<!--                <p class="lead d-inline-block">-->
+<!--                    <a href="/books/new" class="btn btn-lg btn-light fw-bold border-white bg-white">Add book</a>-->
+<!--                </p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+    <footer class="mt-auto text-white-50 fixed-bottom">
+        <p>Created by <a href="https://www.linkedin.com/in/ruslan-dobrov/" class="text-white">Ruslan Dobrov</a>, 2023</p>
+    </footer>
 </div>
-
-<br/>
-<hr/>
-
-<a href="/books/new">Добавить книгу</a>
-
+<script src="/resources/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Все книги</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<div th:each="book : ${books}">-->
+<!--    <a th:href="@{/books/{id}(id=${book.getId()})}"-->
+<!--       th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"/>-->
+<!--</div>-->
+
+<!--<br/>-->
+<!--<hr/>-->
+
+<!--<a href="/books/new">Добавить книгу</a>-->
+
+<!--</body>-->
+<!--</html>-->
