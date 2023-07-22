@@ -1,26 +1,88 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!doctype html>
+<html lang="en" class="h-100" data-bs-theme="auto">
 <head>
-    <meta charset="UTF-8">
-    <title>Новый человек</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Spring Framework Library Application">
+    <meta name="author" content="Ruslan Dobrov">
+    <title>New person</title>
+    <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/resources/css/cover.css" rel="stylesheet">
 </head>
-<body>
+<body class="d-flex h-100 text-center text-bg-dark">
+<div class="w-100 h-100">
+    <header class="cover-container d-flex p-3 mx-auto flex-column mb-auto">
+        <div>
+            <h3 class="float-md-start mb-0">Spring Library Application</h3>
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+                <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="/people">People</a>
+                <a class="nav-link fw-bold py-1 px-0" href="/books">Books</a>
+                <a class="nav-link fw-bold py-1 px-0" href="/">About</a>
+            </nav>
+        </div>
+    </header>
 
-<form th:method="POST" th:action="@{/people}" th:object="${person}">
-
-    <label for="fullName">Введите ФИО: </label>
-    <input type="text" th:field="*{fullName}" id="fullName"/>
-    <div style="color:red" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"/>
-    <br/>
-
-    <label for="yearOfBirth">Введите год рождения: </label>
-    <input type="text" th:field="*{yearOfBirth}" id="yearOfBirth"/>
-    <div style="color:red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}"/>
-    <br/>
-
-    <input type="submit" value="Создать"/>
-
-</form>
-
+    <main class="px-3 details">
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-1"></div>
+            <div class="col-lg-8 col-md-8 col-sm-10">
+                <form th:method="POST" th:action="@{/people}" th:object="${person}">
+                    <div class="form-floating mb-3 error">
+                        <input class="form-control" type="text" th:field="*{fullName}" id="fullName">
+                        <label class="text-dark" for="fullName">Full name</label>
+                        <div class="error" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"/>
+                    </div>
+                    <div class="form-floating mb-3 error">
+                        <input type="text" class="form-control" th:field="*{yearOfBirth}" id="yearOfBirth">
+                        <label class="text-dark" for="yearOfBirth">Year of birth</label>
+                        <div class="error" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}"/>
+                    </div>
+                    <div class="row">
+                        <div class="col text-center">
+                            <p class="lead d-inline-block">
+                                <input type="submit" class="btn btn-lg btn-light fw-bold border-white bg-white" value="Create"/>
+                            </p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-1"></div>
+        </div>
+    </main>
+    <footer class="mt-auto text-white-50 fixed-bottom">
+        <p>Created by <a href="https://www.linkedin.com/in/ruslan-dobrov/" class="text-white">Ruslan Dobrov</a>, 2023</p>
+    </footer>
+</div>
+<script src="/resources/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Новый человек</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<form th:method="POST" th:action="@{/people}" th:object="${person}">-->
+
+<!--    <label for="fullName">Введите ФИО: </label>-->
+<!--    <input type="text" th:field="*{fullName}" id="fullName"/>-->
+<!--    <div style="color:red" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"/>-->
+<!--    <br/>-->
+
+<!--    <label for="yearOfBirth">Введите год рождения: </label>-->
+<!--    <input type="text" th:field="*{yearOfBirth}" id="yearOfBirth"/>-->
+<!--    <div style="color:red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}"/>-->
+<!--    <br/>-->
+
+<!--    <input type="submit" value="Создать"/>-->
+
+<!--</form>-->
+
+<!--</body>-->
+<!--</html>-->
