@@ -16,7 +16,7 @@
             <h3 class="float-md-start mb-0">Spring Library Application</h3>
             <nav class="nav nav-masthead justify-content-center float-md-end">
                 <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="/people">People</a>
-                <a class="nav-link fw-bold py-1 px-0"href="/books">Books</a>
+                <a class="nav-link fw-bold py-1 px-0" href="/books">Books</a>
                 <a class="nav-link fw-bold py-1 px-0" href="/">About</a>
             </nav>
         </div>
@@ -27,7 +27,7 @@
             <div class="col-lg-8 col-md-8 col-sm-10">
                 <div class="d-grid gap-2 lead w-100 mt-2" th:each="person : ${people}">
                     <a class="btn btn-secondary rounded-pill px-3" type="button" th:href="@{/people/{id}(id=${person.getId()})}"
-                       th:text="${person.getFullName() + ', ' + person.getYearOfBirth()}"/>
+                       th:text="${person.getFullName() + ', ' + person.getYearOfBirth()}"></a>
                 </div>
             </div>
             <div class="col-lg-2 col-md-2 col-sm-1"></div>
