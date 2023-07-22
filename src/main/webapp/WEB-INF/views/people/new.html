@@ -21,7 +21,6 @@
             </nav>
         </div>
     </header>
-
     <main class="px-3 details">
         <div class="row">
             <div class="col-lg-2 col-md-2 col-sm-1"></div>
@@ -30,12 +29,12 @@
                     <div class="form-floating mb-3 error">
                         <input class="form-control" type="text" th:field="*{fullName}" id="fullName">
                         <label class="text-dark" for="fullName">Full name</label>
-                        <div class="error" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"/>
+                        <div class="error" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></div>
                     </div>
                     <div class="form-floating mb-3 error">
                         <input type="text" class="form-control" th:field="*{yearOfBirth}" id="yearOfBirth">
                         <label class="text-dark" for="yearOfBirth">Year of birth</label>
-                        <div class="error" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}"/>
+                        <div class="error" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}"></div>
                     </div>
                     <div class="row">
                         <div class="col text-center">
@@ -56,9 +55,6 @@
 <script src="/resources/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-
-
 
 <!--<!DOCTYPE html>-->
 <!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->

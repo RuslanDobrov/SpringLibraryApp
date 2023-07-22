@@ -48,8 +48,7 @@ public class BooksController {
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("book") @Valid Book book,
-                         BindingResult bindingResult) {
+    public String create(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "books/new";
         bookDAO.save(book);
@@ -67,7 +66,6 @@ public class BooksController {
                          @PathVariable("id") int id) {
         if (bindingResult.hasErrors())
             return "books/edit";
-
         bookDAO.update(id, book);
         return "redirect:/books";
     }

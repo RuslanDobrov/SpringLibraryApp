@@ -25,8 +25,7 @@
         <div class="row mt-5">
             <div class="col-lg-3 col-md-3 col-sm-2"></div>
             <div class="col-lg-6 col-md-6 col-sm-8">
-                <h1 th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}" />
-
+                <h1 th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"></h1>
                 <div class="container mt-2">
                     <div class="row">
                         <div class="col">
@@ -34,15 +33,14 @@
                                 <input class="btn btn-lg btn-light fw-bold border-white bg-white" type="submit" value="Edit"/>
                             </form>
                             <form class="lead d-inline-block" th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
-                                <input class="btn btn-lg btn-light fw-bold border-white bg-white" type="submit" value="Delete"/>
+                                <input class="btn btn-lg btn-danger fw-bold border-white bg-danger" type="submit" value="Delete"/>
                             </form>
                         </div>
                     </div>
                 </div>
-
                 <div class="lead mt-5" th:if="${owner}">
                     <h3>The book is now: </h3>
-                    <p th:text="${owner.getFullName()}" />
+                    <p th:text="${owner.getFullName()}"></p>
                     <form th:method="PATCH" th:action="@{/books/{id}/release(id=${book.getId()})}">
                         <div class="row">
                             <div class="col text-center">
@@ -53,13 +51,12 @@
                         </div>
                     </form>
                 </div>
-
                 <div class="lead mt-5" th:if="${people}">
                     <h3>This book is free. To whom should she be assigned?</h3>
                     <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}">
                         <label for="person">Choose a person:</label>
                         <select class="form-select mt-2" aria-label="Choose a person" th:object="${person}" th:field="*{id}" id="person">
-                            <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getFullName()}"/>
+                            <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getFullName()}"></option>
                         </select>
                         <input type="submit" class="btn btn-lg btn-light fw-bold border-white bg-white mt-2" value="Assign book"/>
                     </form>
@@ -75,8 +72,6 @@
 <script src="/resources/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-
 
 <!--<!DOCTYPE html>-->
 <!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
