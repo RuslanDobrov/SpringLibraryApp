@@ -1,34 +1,127 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!doctype html>
+<html lang="en" class="h-100" data-bs-theme="auto">
 <head>
-    <meta charset="UTF-8">
-    <title>Показать человека</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Spring Framework Library Application">
+    <meta name="author" content="Ruslan Dobrov">
+    <title>Show person</title>
+    <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/resources/css/cover.css" rel="stylesheet">
 </head>
-<body>
+<body class="d-flex h-100 text-center text-bg-dark">
+<div class="w-100 h-100">
+    <header class="cover-container d-flex p-3 mx-auto flex-column mb-auto">
+        <div>
+            <h3 class="float-md-start mb-0">Spring Library Application</h3>
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+                <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="/people">People</a>
+                <a class="nav-link fw-bold py-1 px-0" href="/books">Books</a>
+                <a class="nav-link fw-bold py-1 px-0" href="/">About</a>
+            </nav>
+        </div>
+    </header>
+    <main class="px-3">
+        <div class="row mt-5">
+            <div class="col-lg-3 col-md-3 col-sm-2"></div>
+            <div class="col-lg-6 col-md-6 col-sm-8">
+                <h1 th:text="${person.getFullName() + ', ' + person.getYearOfBirth()}"/>
 
-    <p th:text="${person.getFullName() + ', ' + person.getYearOfBirth()}"/>
-    <div th:if="${books.isEmpty()}">
-        <p>Человек пока не взял ни одной книги<p/>
-        <hr/>
-    </div>
+                <div class="container mt-2">
+                    <div class="row">
+                        <div class="col">
+                            <form class="lead d-inline-block me-lg-2" th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
+                                <input class="btn btn-lg btn-light fw-bold border-white bg-white" type="submit" value="Edit"/>
+                            </form>
+                            <form class="lead d-inline-block" th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+                                <input class="btn btn-lg btn-light fw-bold border-white bg-white" type="submit" value="Delete"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
-    <div th:if="${!books.isEmpty()}">
-        <hr/>
-        <b>Книги:</b>
-        <br/>
+                <div class="lead mt-5" th:if="${books.isEmpty()}">
+                    <p>The person hasn't got any books yet</p>
+                </div>
+
+                <div class="lead mt-5" th:if="${!books.isEmpty()}">
+                    <h3>Books:</h3>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Year</th>
+                            </tr>
+                        </thead>
+                        <tbody th:each="book : ${books}">
+                            <tr>
+                                <td th:text="${book.getTitle()}"/>
+                                <td th:text="${book.getAuthor()}"/>
+                                <td th:text="${book.getYear()}"/>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-2"></div>
+        </div>
+
+
+
+
         <table th:each="book : ${books}">
             <tr th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"/>
         </table>
-        <hr/>
-    </div>
 
-    <form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
-        <input type="submit" value="Редактировать"/>
-    </form>
 
-    <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
-        <input type="submit" value="Удалить"/>
-    </form>
 
+
+
+    </main>
+    <footer class="mt-auto text-white-50 fixed-bottom">
+        <p>Created by <a href="https://www.linkedin.com/in/ruslan-dobrov/" class="text-white">Ruslan Dobrov</a>, 2023</p>
+    </footer>
+</div>
+<script src="/resources/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Показать человека</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--    <p th:text="${person.getFullName() + ', ' + person.getYearOfBirth()}"/>-->
+<!--    <div th:if="${books.isEmpty()}">-->
+<!--        <p>Человек пока не взял ни одной книги<p/>-->
+<!--        <hr/>-->
+<!--    </div>-->
+
+<!--    <div th:if="${!books.isEmpty()}">-->
+<!--        <hr/>-->
+<!--        <b>Книги:</b>-->
+<!--        <br/>-->
+<!--        <table th:each="book : ${books}">-->
+<!--            <tr th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"/>-->
+<!--        </table>-->
+<!--        <hr/>-->
+<!--    </div>-->
+
+<!--    <form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">-->
+<!--        <input type="submit" value="Редактировать"/>-->
+<!--    </form>-->
+
+<!--    <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">-->
+<!--        <input type="submit" value="Удалить"/>-->
+<!--    </form>-->
+
+<!--</body>-->
+<!--</html>-->
