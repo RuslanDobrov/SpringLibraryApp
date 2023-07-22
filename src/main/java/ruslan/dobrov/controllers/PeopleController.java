@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import ruslan.dobrov.dao.PersonDAO;
 import ruslan.dobrov.models.Person;
 import ruslan.dobrov.util.PersonValidator;
-
 import javax.validation.Valid;
 
 @Controller
@@ -19,8 +18,7 @@ public class PeopleController {
     private final PersonValidator personValidator;
 
     @Autowired
-    public PeopleController(PersonDAO personDAO,
-                            PersonValidator personValidator) {
+    public PeopleController(PersonDAO personDAO, PersonValidator personValidator) {
         this.personDAO = personDAO;
         this.personValidator = personValidator;
     }
@@ -44,8 +42,7 @@ public class PeopleController {
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("person") @Valid Person person,
-                         BindingResult bindingResult) {
+    public String create(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
         personValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors())
             return "people/new";
@@ -60,8 +57,7 @@ public class PeopleController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("person") @Valid Person person,
-                         BindingResult bindingResult,
+    public String update(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult,
                          @PathVariable("id") int id) {
         if (bindingResult.hasErrors())
             return "people/edit";

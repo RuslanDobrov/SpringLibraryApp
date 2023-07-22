@@ -9,17 +9,17 @@ public class Book {
 
     private int id;
 
-    @NotEmpty(message = "Название книги не должно быть пустым")
+    @NotEmpty(message = "Book title must not be empty")
     @NotNull
-    @Size(min = 1, max = 100, message = "Название дожлно быть от 1 до 100 символов длиной")
+    @Size(min = 1, max = 100, message = "Title must be between 1 and 100 characters long")
     private String title;
 
-    @NotEmpty(message = "Автор не должен быть пустым")
+    @NotEmpty(message = "Author must not be empty")
     @NotNull
-    @Size(min = 1, max = 100, message = "Имя дожлно быть от 1 до 100 символов длиной")
+    @Size(min = 1, max = 100, message = "Name must be between 1 and 100 characters long")
     private String author;
 
-    @Min(value = 0, message = "Год издания болжен быть больше, чем 0")
+    @Min(value = 0, message = "Year of publication must be greater than 0")
     private int year;
 
     public Book() {}

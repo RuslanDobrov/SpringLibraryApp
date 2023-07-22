@@ -6,14 +6,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class Person {
+
     private int id;
 
-    @NotEmpty(message = "Имя не должно быть пустым")
+    @NotEmpty(message = "Name must not be empty")
     @NotNull
-    @Size(min = 2, max = 100, message = "Имя дожлно быть от 2 до 100 символов длиной")
+    @Size(min = 2, max = 100, message = "Name must be between 2 and 100 characters long")
     private String fullName;
 
-    @Min(value = 1900, message = "Год рождения не может быть меньше 1900 года")
+    @Min(value = 1900, message = "Year of birth cannot be less than 1900")
     private int yearOfBirth;
 
     public Person() {}
