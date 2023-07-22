@@ -24,11 +24,34 @@
     <main class="px-3 details">
         <div class="row mt-5">
             <div class="col-lg-2 col-md-2 col-sm-1"></div>
-            <div class="col-lg-8 col-md-8 col-sm-10">
-                <div class="d-grid gap-2 lead w-100 mt-2" th:each="book : ${books}">
-                    <a class="btn btn-secondary rounded-pill px-3" type="button" th:href="@{/books/{id}(id=${book.getId()})}"
-                       th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"></a>
-                </div>
+            <div class="col-lg-8 col-md-8 col-sm-10 mt-2">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Year</th>
+                        <th>Detail</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="book : ${books}">
+                    <tr class="align-middle">
+                        <td th:text="${book.getTitle()}"></td>
+                        <td th:text="${book.getAuthor()}"></td>
+                        <td th:text="${book.getYear()}"></td>
+                        <td>
+                            <a type="button" class="btn btn-secondary" th:href="@{/books/{id}(id=${book.getId()})}">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-pencil-square"
+                                     height="25" width="25" viewBox="0 0 15 18">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>
+                                    <path fill-rule="evenodd"
+                                          d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="col-lg-2 col-md-2 col-sm-1"></div>
         </div>
@@ -41,7 +64,8 @@
         </div>
     </main>
     <footer class="mt-auto text-white-50 fixed-bottom">
-        <p>Created by <a href="https://www.linkedin.com/in/ruslan-dobrov/" class="text-white">Ruslan Dobrov</a>, 2023</p>
+        <p>Created by <a href="https://www.linkedin.com/in/ruslan-dobrov/" class="text-white">Ruslan Dobrov</a>, 2023
+        </p>
     </footer>
 </div>
 <script src="/resources/js/bootstrap.bundle.min.js"></script>
