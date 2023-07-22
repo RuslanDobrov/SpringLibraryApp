@@ -28,8 +28,6 @@
                 <div class="d-grid gap-2 lead w-100 mt-2" th:each="book : ${books}">
                     <a class="btn btn-secondary rounded-pill px-3" type="button" th:href="@{/books/{id}(id=${book.getId()})}"
                             th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"/>
-<!--                    <a th:href="@{/books/{id}(id=${book.getId()})}"-->
-<!--                       th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"/>-->
                 </div>
             </div>
             <div class="col-lg-2 col-md-2 col-sm-1"></div>
@@ -42,15 +40,6 @@
             </div>
         </div>
     </main>
-<!--    <div class="container">-->
-<!--        <div class="row">-->
-<!--            <div class="col">-->
-<!--                <p class="lead d-inline-block">-->
-<!--                    <a href="/books/new" class="btn btn-lg btn-light fw-bold border-white bg-white">Add book</a>-->
-<!--                </p>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
     <footer class="mt-auto text-white-50 fixed-bottom">
         <p>Created by <a href="https://www.linkedin.com/in/ruslan-dobrov/" class="text-white">Ruslan Dobrov</a>, 2023</p>
     </footer>
@@ -58,9 +47,6 @@
 <script src="/resources/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-
-
 
 <!--<!DOCTYPE html>-->
 <!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
