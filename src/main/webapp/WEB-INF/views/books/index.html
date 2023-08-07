@@ -56,20 +56,32 @@
             <div class="col-lg-2 col-md-2 col-sm-1"></div>
         </div>
 
-<!--        <div class="row mt-5" th:if="${books.size() > 2}">-->
+<!--        <p th:text="'Всего страниц ' + ${books.size() / booksPerPage + 1}"></p>-->
+
+<!--        <div class="row mt-5" th:if="${!numberOfPages.isEmpty()}">-->
 <!--            <div class="col-lg-2 col-md-2 col-sm-1"></div>-->
-<!--            <div class="col-lg-8 col-md-8 col-sm-10 mt-2" th:each="page, index : ${books.size() % 2}">-->
-<!--                <a th:href="@{/books(page=${index.count}, books_per_page=2)}"-->
+<!--            <div class="col-lg-8 col-md-8 col-sm-10 mt-2 d-inline-block" th:each="pageNumber : ${numberOfPages}">-->
+<!--                <a th:href="@{/books(page=${pageNumber}, books_per_page=${booksPerPage})}"-->
 <!--                   class="btn btn-lg btn-light fw-bold border-white bg-white"-->
-<!--                   th:text="${index.count}">Page number</a>-->
+<!--                   th:text="${pageNumber + 1}">Page number</a>-->
 <!--            </div>-->
 <!--            <div class="col-lg-2 col-md-2 col-sm-1"></div>-->
 <!--        </div>-->
 
-<!--        <div th:each="i : ${#numbers.sequence(1, #numbers.integerDivide())}">-->
-<!--            <p>привет</p>-->
-<!--            &lt;!&ndash; Ваше действие, которое необходимо повторить &ndash;&gt;-->
-<!--        </div>-->
+
+        <div class="container" th:if="${!numberOfPages.isEmpty()}">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-1"></div>
+                <div class="col-lg-8 col-md-8 col-sm-10 mt-2 text-center">
+                    <a th:each="pageNumber : ${numberOfPages}"
+                       th:href="@{/books(page=${pageNumber}, books_per_page=${booksPerPage})}"
+                       th:text="${pageNumber + 1}"
+                       th:class="${pageNumber == page} ? 'mx-2 btn btn-lg btn-light fw-bold border-white bg-white' : 'mx-2 btn btn-lg btn-light fw-bold border-white bg-dark text-white'">Page number</a>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-1"></div>
+            </div>
+        </div>
+
 
         <div class="row">
             <div class="col text-center mt-5">

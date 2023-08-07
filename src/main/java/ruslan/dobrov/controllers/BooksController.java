@@ -11,6 +11,9 @@ import ruslan.dobrov.services.BooksServices;
 import ruslan.dobrov.services.PeopleService;
 
 import javax.validation.Valid;
+import java.util.Collections;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/books")
@@ -35,10 +38,23 @@ public class BooksController {
     public String index(Model model,
                         @RequestParam(value = "page", defaultValue = "-1", required = false) int page,
                         @RequestParam(value = "books_per_page", defaultValue = "-1", required = false) int booksPerPage) {
-        if (page == -1 && booksPerPage == -1)
+        if (page == -1 && booksPerPage == -1) {
             model.addAttribute("books", booksServices.findAll());
-        else
+        } else {
             model.addAttribute("books", booksServices.findAll(page, booksPerPage));
+            model.addAttribute("page", page);
+            model.addAttribute("booksPerPage", booksPerPage);
+            if(booksServices.findAll().size() > 10) {
+                model.addAttribute("numberOfPages",
+                        IntStream.range(
+                                page > 5 ? (page - 5) : 0,
+                                (booksServices.findAll().size() - page) > 5 ? (page + 5) : booksServices.findAll().size()
+                        ).boxed().collect(Collectors.toList()));
+            }
+            else {
+                model.addAttribute("numberOfPages", IntStream.range(0, booksServices.findAll().size() / booksPerPage).boxed().collect(Collectors.toList()));
+            }
+        }
         return "books/index";
     }
 
