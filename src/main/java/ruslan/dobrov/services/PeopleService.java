@@ -31,7 +31,7 @@ public class PeopleService {
         return foundPerson.orElse(null);
     }
 
-    public List<Book> getPersonBooksById(int id) {
+    public List<Book> getBooksByPersonId(int id) {
         Optional<Person> foundPerson = peopleRepository.findById(id);
         if (foundPerson.isPresent()) {
             Hibernate.initialize(foundPerson.get().getBooks());

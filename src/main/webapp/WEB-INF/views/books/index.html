@@ -55,6 +55,22 @@
             </div>
             <div class="col-lg-2 col-md-2 col-sm-1"></div>
         </div>
+
+<!--        <div class="row mt-5" th:if="${books.size() > 2}">-->
+<!--            <div class="col-lg-2 col-md-2 col-sm-1"></div>-->
+<!--            <div class="col-lg-8 col-md-8 col-sm-10 mt-2" th:each="page, index : ${books.size() % 2}">-->
+<!--                <a th:href="@{/books(page=${index.count}, books_per_page=2)}"-->
+<!--                   class="btn btn-lg btn-light fw-bold border-white bg-white"-->
+<!--                   th:text="${index.count}">Page number</a>-->
+<!--            </div>-->
+<!--            <div class="col-lg-2 col-md-2 col-sm-1"></div>-->
+<!--        </div>-->
+
+<!--        <div th:each="i : ${#numbers.sequence(1, #numbers.integerDivide())}">-->
+<!--            <p>привет</p>-->
+<!--            &lt;!&ndash; Ваше действие, которое необходимо повторить &ndash;&gt;-->
+<!--        </div>-->
+
         <div class="row">
             <div class="col text-center mt-5">
                 <p class="lead d-inline-block">

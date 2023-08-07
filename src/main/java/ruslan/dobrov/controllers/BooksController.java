@@ -25,9 +25,20 @@ public class BooksController {
         this.peopleService = peopleService;
     }
 
+//    @GetMapping()
+//    public String index(Model model) {
+//        model.addAttribute("books", booksServices.findAll());
+//        return "books/index";
+//    }
+
     @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("books", booksServices.findAll());
+    public String index(Model model,
+                        @RequestParam(value = "page", defaultValue = "-1", required = false) int page,
+                        @RequestParam(value = "books_per_page", defaultValue = "-1", required = false) int booksPerPage) {
+        if (page == -1 && booksPerPage == -1)
+            model.addAttribute("books", booksServices.findAll());
+        else
+            model.addAttribute("books", booksServices.findAll(page, booksPerPage));
         return "books/index";
     }
 
