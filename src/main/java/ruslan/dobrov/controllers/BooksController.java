@@ -37,11 +37,10 @@ public class BooksController {
     @GetMapping()
     public String index(Model model,
                         @RequestParam(value = "page", defaultValue = "-1", required = false) int page,
-                        @RequestParam(value = "books_per_page", defaultValue = "-1", required = false) int booksPerPage) {
-        if (page == -1 && booksPerPage == -1) {
-            model.addAttribute("books", booksServices.findAll());
-        } else {
-            model.addAttribute("books", booksServices.findAll(page, booksPerPage));
+                        @RequestParam(value = "books_per_page", defaultValue = "-1", required = false) int booksPerPage,
+                        @RequestParam(value = "sort_by", defaultValue = "", required = false) String columName) {
+        if (page != -1 && booksPerPage != -1) {
+            model.addAttribute("books", booksServices.findAllWithPagination(page, booksPerPage));
             model.addAttribute("page", page);
             model.addAttribute("booksPerPage", booksPerPage);
             if(booksServices.findAll().size() > 10) {
@@ -54,6 +53,10 @@ public class BooksController {
             else {
                 model.addAttribute("numberOfPages", IntStream.range(0, booksServices.findAll().size() / booksPerPage).boxed().collect(Collectors.toList()));
             }
+        } else if (!columName.isEmpty()){
+           model.addAttribute("books", booksServices.findAllWithSortByColum(columName));
+        } else {
+            model.addAttribute("books", booksServices.findAll());
         }
         return "books/index";
     }
