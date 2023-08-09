@@ -11,4 +11,5 @@ import java.util.List;
 public interface BooksRepository extends JpaRepository<Book, Integer> {
     List<Book> findAllById(int id);
     Person findByOwner(int person_id);
+    List<Book> findByTitleStartingWith(String startingWith);
 }
