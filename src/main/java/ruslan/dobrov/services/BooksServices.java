@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ruslan.dobrov.models.Book;
 import ruslan.dobrov.models.Person;
 import ruslan.dobrov.repositories.BooksRepository;
+
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,6 +69,7 @@ public class BooksServices {
     public void release(int id) {
         Book foundBook = booksRepository.findById(id).get();
         foundBook.setOwner(null);
+        foundBook.setDateAssign(null);
         booksRepository.save(foundBook);
     }
 
@@ -74,6 +77,7 @@ public class BooksServices {
     public void assign(int id, Person selectedPerson) {
         Book foundBook = booksRepository.findById(id).get();
         foundBook.setOwner(selectedPerson);
+        foundBook.setDateAssign(new Date());
         booksRepository.save(foundBook);
     }
 }
