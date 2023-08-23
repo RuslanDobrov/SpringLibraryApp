@@ -8,7 +8,9 @@ import ruslan.dobrov.models.Book;
 import ruslan.dobrov.models.Person;
 import ruslan.dobrov.repositories.PeopleRepository;
 
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,10 +37,19 @@ public class PeopleService {
         Optional<Person> foundPerson = peopleRepository.findById(id);
         if (foundPerson.isPresent()) {
             Hibernate.initialize(foundPerson.get().getBooks());
-            return foundPerson.get().getBooks();
+            List<Book> books = foundPerson.get().getBooks();
+            for (Book book : books) {
+                book.setExpired(isExpired(book));
+            }
+            return books;
         } else {
             return Collections.emptyList();
         }
+    }
+
+    public Boolean isExpired(Book book) {
+        Date today = new Date();
+        return ChronoUnit.DAYS.between(book.getDateAssign().toInstant(), today.toInstant()) > 10;
     }
 
     public Person getPersonByFullName(String fullName) {
