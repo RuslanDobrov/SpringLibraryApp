@@ -99,7 +99,7 @@ public class Book {
         this.dateAssign = dateAssign;
     }
 
-    public Boolean isExpired() {
+    public Boolean getExpired() {
         return expired;
     }
 

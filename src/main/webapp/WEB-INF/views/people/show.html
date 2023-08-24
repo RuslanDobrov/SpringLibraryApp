@@ -57,8 +57,8 @@
                                 <td th:text="${book.getTitle()}"></td>
                                 <td th:text="${book.getAuthor()}"></td>
                                 <td th:text="${book.getYear()}"></td>
-                                <td th:if="${book.isExpired()}" th:class="${'error'}" th:text="Yes"></td>
-                                <td th:if="${!book.isExpired()}" th:text="No"></td>
+                                <td th:if="${book.getExpired()}" th:class="${'error'}" th:text="Yes"></td>
+                                <td th:if="${!book.getExpired()}" th:text="No"></td>
                             </tr>
                         </tbody>
                     </table>
