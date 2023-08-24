@@ -34,10 +34,10 @@ public class PeopleService {
     }
 
     public List<Book> getBooksByPersonId(int id) {
-        Optional<Person> foundPerson = peopleRepository.findById(id);
-        if (foundPerson.isPresent()) {
-            Hibernate.initialize(foundPerson.get().getBooks());
-            List<Book> books = foundPerson.get().getBooks();
+        Optional<Person> person = peopleRepository.findById(id);
+        if (person.isPresent()) {
+            Hibernate.initialize(person.get().getBooks());
+            List<Book> books = person.get().getBooks();
             for (Book book : books) {
                 book.setExpired(isExpired(book));
             }
