@@ -17,7 +17,7 @@
             <nav class="nav nav-masthead justify-content-center float-md-end">
                 <a class="nav-link fw-bold py-1 px-0" href="/people">People</a>
                 <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="/books">Books</a>
-                <a class="nav-link fw-bold py-1 px-0" href="/">Search</a>
+                <a class="nav-link fw-bold py-1 px-0" href="/search">Search</a>
             </nav>
         </div>
     </header>
@@ -65,51 +65,7 @@
             <div class="col-lg-3 col-md-3 col-sm-2"></div>
         </div>
     </main>
-    <footer class="mt-auto text-white-50 fixed-bottom">
-        <p>Created by <a href="https://www.linkedin.com/in/ruslan-dobrov/" class="text-white">Ruslan Dobrov</a>, 2023</p>
-    </footer>
 </div>
 <script src="/resources/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Показать все книги</title>-->
-<!--</head>-->
-<!--<body>-->
-
-<!--    <p th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"/>-->
-
-<!--    <div th:if="${owner}">-->
-<!--        <span>Книга сейчас у: </span>-->
-<!--        <span th:text="${owner.getFullName()}"></span>-->
-<!--        <form th:method="PATCH" th:action="@{/books/{id}/release(id=${book.getId()})}">-->
-<!--            <input type="submit" value="Освободить книгу">-->
-<!--        </form>-->
-<!--    </div>-->
-
-<!--    <div th:if="${people}">-->
-<!--        <span>Эта книга совбодна. Кому назначить ее?</span>-->
-<!--        <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}">-->
-<!--            <label for="person">Выберите человека:</label>-->
-<!--            <select th:object="${person}" th:field="*{id}" id="person">-->
-<!--                <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getFullName()}"/>-->
-<!--            </select>-->
-<!--            <input type="submit" value="Назначить книгу" />-->
-<!--        </form>-->
-<!--    </div>-->
-
-<!--    <hr/>-->
-
-<!--    <form th:method="GET" th:action="@{/books/{id}/edit(id=${book.getId()})}">-->
-<!--        <input type="submit" value="Редактировать"/>-->
-<!--    </form>-->
-<!--    <form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">-->
-<!--        <input type="submit" value="Удалить"/>-->
-<!--    </form>-->
-
-<!--</body>-->
-<!--</html>-->

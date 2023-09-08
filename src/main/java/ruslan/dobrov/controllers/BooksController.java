@@ -11,7 +11,6 @@ import ruslan.dobrov.services.BooksServices;
 import ruslan.dobrov.services.PeopleService;
 
 import javax.validation.Valid;
-import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -27,12 +26,6 @@ public class BooksController {
         this.booksServices = booksServices;
         this.peopleService = peopleService;
     }
-
-//    @GetMapping()
-//    public String index(Model model) {
-//        model.addAttribute("books", booksServices.findAll());
-//        return "books/index";
-//    }
 
     @GetMapping()
     public String index(Model model,

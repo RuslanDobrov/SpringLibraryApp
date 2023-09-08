@@ -17,7 +17,7 @@
             <nav class="nav nav-masthead justify-content-center float-md-end">
                 <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="/people">People</a>
                 <a class="nav-link fw-bold py-1 px-0" href="/books">Books</a>
-                <a class="nav-link fw-bold py-1 px-0" href="/">Search</a>
+                <a class="nav-link fw-bold py-1 px-0" href="/search">Search</a>
             </nav>
         </div>
     </header>
@@ -67,45 +67,7 @@
             <div class="col-lg-3 col-md-3 col-sm-2"></div>
         </div>
     </main>
-    <footer class="mt-auto text-white-50 fixed-bottom">
-        <p>Created by <a href="https://www.linkedin.com/in/ruslan-dobrov/" class="text-white">Ruslan Dobrov</a>, 2023</p>
-    </footer>
 </div>
 <script src="/resources/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Показать человека</title>-->
-<!--</head>-->
-<!--<body>-->
-
-<!--    <p th:text="${person.getFullName() + ', ' + person.getYearOfBirth()}"/>-->
-<!--    <div th:if="${books.isEmpty()}">-->
-<!--        <p>Человек пока не взял ни одной книги<p/>-->
-<!--        <hr/>-->
-<!--    </div>-->
-
-<!--    <div th:if="${!books.isEmpty()}">-->
-<!--        <hr/>-->
-<!--        <b>Книги:</b>-->
-<!--        <br/>-->
-<!--        <table th:each="book : ${books}">-->
-<!--            <tr th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"/>-->
-<!--        </table>-->
-<!--        <hr/>-->
-<!--    </div>-->
-
-<!--    <form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">-->
-<!--        <input type="submit" value="Редактировать"/>-->
-<!--    </form>-->
-
-<!--    <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">-->
-<!--        <input type="submit" value="Удалить"/>-->
-<!--    </form>-->
-
-<!--</body>-->
-<!--</html>-->

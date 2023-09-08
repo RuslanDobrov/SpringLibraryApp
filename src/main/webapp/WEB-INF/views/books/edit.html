@@ -17,7 +17,7 @@
             <nav class="nav nav-masthead justify-content-center float-md-end">
                 <a class="nav-link fw-bold py-1 px-0" href="/people">People</a>
                 <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="/books">Books</a>
-                <a class="nav-link fw-bold py-1 px-0" href="/">Search</a>
+                <a class="nav-link fw-bold py-1 px-0" href="/search">Search</a>
             </nav>
         </div>
     </header>
@@ -53,40 +53,7 @@
             <div class="col-lg-2 col-md-2 col-sm-1"></div>
         </div>
     </main>
-    <footer class="mt-auto text-white-50 fixed-bottom">
-        <p>Created by <a href="https://www.linkedin.com/in/ruslan-dobrov/" class="text-white">Ruslan Dobrov</a>, 2023</p>
-    </footer>
 </div>
 <script src="/resources/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Обновить книгу</title>-->
-<!--</head>-->
-<!--<body>-->
-
-<!--<form th:method="PATCH" th:action="@{/books/{id}(id=${book.getId()})}" th:object="${book}">-->
-
-<!--    <label for="title">Введите название книги: </label>-->
-<!--    <input type="text" th:field="*{title}" id="title"/>-->
-<!--    <div style="color:red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"/>-->
-<!--    <br/>-->
-
-<!--    <label for="author">Введите автора: </label>-->
-<!--    <input type="text" th:field="*{author}" id="author"/>-->
-<!--    <div style="color:red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}"/>-->
-<!--    <br/>-->
-
-<!--    <label for="year">Введите год: </label>-->
-<!--    <input type="text" th:field="*{year}" id="year"/>-->
-<!--    <div style="color:red" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"/>-->
-<!--    <br/>-->
-
-<!--    <input type="submit" value="Обновить"/>-->
-
-<!--</form>-->
-
-<!--</body>-->
-<!--</html>-->
