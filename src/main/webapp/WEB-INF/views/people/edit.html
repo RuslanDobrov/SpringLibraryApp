@@ -32,9 +32,9 @@
                         <div class="error" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></div>
                     </div>
                     <div class="form-floating mb-3 error">
-                        <input type="text" class="form-control" th:field="*{yearOfBirth}" id="yearOfBirth">
-                        <label class="text-dark" for="yearOfBirth">Year of birth</label>
-                        <div class="error" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}"></div>
+                        <input type="text" class="form-control" th:field="*{birthYear}" id="birthYear">
+                        <label class="text-dark" for="birthYear">Year of birth</label>
+                        <div class="error" th:if="${#fields.hasErrors('birthYear')}" th:errors="*{birthYear}"></div>
                     </div>
                     <div class="row">
                         <div class="col text-center">

@@ -31,6 +31,7 @@
                         <th>Title</th>
                         <th>Author</th>
                         <th>Year</th>
+                        <th>Quantity</th>
                         <th>Detail</th>
                     </tr>
                     </thead>
@@ -38,7 +39,8 @@
                     <tr class="align-middle">
                         <td th:text="${book.getTitle()}"></td>
                         <td th:text="${book.getAuthor()}"></td>
-                        <td th:text="${book.getYear()}"></td>
+                        <td th:text="${book.getYearPublished()}"></td>
+                        <td th:text="${book.getTotalQuantity()}"></td>
                         <td>
                             <a type="button" class="btn btn-secondary" th:href="@{/books/{id}(id=${book.getId()})}">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-pencil-square"

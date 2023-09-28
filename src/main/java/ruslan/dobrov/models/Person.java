@@ -13,7 +13,7 @@ import java.util.Objects;
 public class Person {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "person_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
@@ -23,18 +23,23 @@ public class Person {
     @Size(min = 2, max = 100, message = "Name must be between 2 and 100 characters long")
     private String fullName;
 
-    @Column(name = "year_of_birth")
+    @Column(name = "birth_year")
     @Min(value = 1900, message = "Year of birth cannot be less than 1900")
-    private int yearOfBirth;
+    private int birthYear;
 
-    @OneToMany(mappedBy = "owner")
+    @ManyToMany
+    @JoinTable(
+            name = "Person_Book",
+            joinColumns = @JoinColumn(name = "person_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
     private List<Book> books;
 
     public Person() {}
 
     public Person(String fullName, int yearOfBirth) {
         this.fullName = fullName;
-        this.yearOfBirth = yearOfBirth;
+        this.birthYear = yearOfBirth;
     }
 
     public int getId() {
@@ -53,12 +58,12 @@ public class Person {
         this.fullName = fullName;
     }
 
-    public int getYearOfBirth() {
-        return yearOfBirth;
+    public int getBirthYear() {
+        return birthYear;
     }
 
-    public void setYearOfBirth(int yearOfBirth) {
-        this.yearOfBirth = yearOfBirth;
+    public void setBirthYear(int yearOfBirth) {
+        this.birthYear = yearOfBirth;
     }
 
     public List<Book> getBooks() {
@@ -77,15 +82,17 @@ public class Person {
         Person person = (Person) o;
 
         if (id != person.id) return false;
-        if (yearOfBirth != person.yearOfBirth) return false;
-        return Objects.equals(fullName, person.fullName);
+        if (birthYear != person.birthYear) return false;
+        if (!Objects.equals(fullName, person.fullName)) return false;
+        return Objects.equals(books, person.books);
     }
 
     @Override
     public int hashCode() {
         int result = id;
         result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
-        result = 31 * result + yearOfBirth;
+        result = 31 * result + birthYear;
+        result = 31 * result + (books != null ? books.hashCode() : 0);
         return result;
     }
 }

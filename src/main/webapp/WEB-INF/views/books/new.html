@@ -37,9 +37,14 @@
                         <div class="error" th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></div>
                     </div>
                     <div class="form-floating mb-3 error">
-                        <input type="text" class="form-control" th:field="*{year}" id="year">
-                        <label class="text-dark" for="year">Year</label>
-                        <div class="error" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></div>
+                        <input type="text" class="form-control" th:field="*{yearPublished}" id="yearPublished">
+                        <label class="text-dark" for="yearPublished">Year of published</label>
+                        <div class="error" th:if="${#fields.hasErrors('yearPublished')}" th:errors="*{yearPublished}"></div>
+                    </div>
+                    <div class="form-floating mb-3 error">
+                        <input type="text" class="form-control" th:field="*{totalQuantity}" id="totalQuantity">
+                        <label class="text-dark" for="totalQuantity">Total quantity</label>
+                        <div class="error" th:if="${#fields.hasErrors('totalQuantity')}" th:errors="*{totalQuantity}"></div>
                     </div>
                     <div class="row">
                         <div class="col text-center">

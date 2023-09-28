@@ -6,5 +6,5 @@ import ruslan.dobrov.models.Person;
 
 @Repository
 public interface PeopleRepository extends JpaRepository<Person, Integer> {
-    Person findByFullName(String fullName);
+    Person findPersonByFullName(String fullName);
 }

@@ -4,28 +4,30 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ruslan.dobrov.models.Book;
 import ruslan.dobrov.models.Person;
+import ruslan.dobrov.models.PersonBook;
 import ruslan.dobrov.repositories.PeopleRepository;
+import ruslan.dobrov.repositories.PersonBookRepository;
 
 import java.time.temporal.ChronoUnit;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
 public class PeopleService {
     private final PeopleRepository peopleRepository;
+    private final PersonBookRepository personBookRepository;
 
     @Autowired
-    public PeopleService(PeopleRepository peopleRepository) {
+    public PeopleService(PeopleRepository peopleRepository, PersonBookRepository personBookRepository) {
         this.peopleRepository = peopleRepository;
+        this.personBookRepository = personBookRepository;
     }
 
     public List<Person> findAll() {
-        return peopleRepository.findAll();
+        List<Person> people = peopleRepository.findAll();
+        Hibernate.initialize(people);
+        return people;
     }
 
     public Person findOne(int id) {
@@ -33,12 +35,22 @@ public class PeopleService {
         return foundPerson.orElse(null);
     }
 
-    public List<Book> getBooksByPersonId(int id) {
+    public List<Person> findAllPeopleWithoutThisBook(int book_id) {
+        List<PersonBook> peopleWithThisBook = personBookRepository.findAllByBookId(book_id);
+        List<Person> people = peopleRepository.findAll();
+        for (PersonBook person : peopleWithThisBook) {
+            people.remove(person.getPerson());
+        }
+        Hibernate.initialize(people);
+        return people;
+    }
+
+    public List<PersonBook> getBooksByPersonId(int id) {
         Optional<Person> person = peopleRepository.findById(id);
         if (person.isPresent()) {
             Hibernate.initialize(person.get().getBooks());
-            List<Book> books = person.get().getBooks();
-            for (Book book : books) {
+            List<PersonBook> books = personBookRepository.findAllByPersonId(id);
+            for (PersonBook book : books) {
                 book.setExpired(isExpired(book));
             }
             return books;
@@ -47,13 +59,13 @@ public class PeopleService {
         }
     }
 
-    public Boolean isExpired(Book book) {
+    public Boolean isExpired(PersonBook book) {
         Date today = new Date();
-        return ChronoUnit.DAYS.between(book.getDateAssign().toInstant(), today.toInstant()) > 10;
+        return ChronoUnit.DAYS.between(book.getAssignDate().toInstant(), today.toInstant()) > 10;
     }
 
     public Person getPersonByFullName(String fullName) {
-        return peopleRepository.findByFullName(fullName);
+        return peopleRepository.findPersonByFullName(fullName);
     }
 
     @Transactional

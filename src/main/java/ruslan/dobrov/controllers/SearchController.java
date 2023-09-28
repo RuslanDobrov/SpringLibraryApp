@@ -6,17 +6,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ruslan.dobrov.services.BooksServices;
+import ruslan.dobrov.services.BooksService;
 
 
 @Controller
 @RequestMapping("/search")
 public class SearchController {
 
-    private final BooksServices booksServices;
+    private final BooksService booksServices;
 
     @Autowired
-    public SearchController(BooksServices booksServices) {
+    public SearchController(BooksService booksServices) {
         this.booksServices = booksServices;
     }
 
