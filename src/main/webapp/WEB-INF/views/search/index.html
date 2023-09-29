@@ -60,22 +60,11 @@
               <td th:text="${book.getTitle()}"></td>
               <td th:text="${book.getAuthor()}"></td>
               <td th:if="${book.getOwners().isEmpty()}">no Owner</td>
-              <td th:if="${book.getOwners().size() > 0}">
+              <td th:else>
                 <span th:each="owner: ${book.getOwners()}"
-                      th:utext="${owner.getFullName().concat('<br/>')}"
-                      th:if="${!#strings.isEmpty(owner.getFullName())}">
-                 <br/>
+                      th:utext="${owner.getFullName().concat('<br/>')}">
                 </span>
               </td>
-
-
-
-
-
-
-
-
-
               <!--<td th:if="${!book.getOwners().isEmpty()}" th:each="owner : ${book.getOwners()}" th:text="${owner.getFullName()}"></td>-->
               <td>
                 <a type="button" class="btn btn-secondary" th:href="@{/books/{id}(id=${book.getId()})}">
