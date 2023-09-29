@@ -60,7 +60,23 @@
               <td th:text="${book.getTitle()}"></td>
               <td th:text="${book.getAuthor()}"></td>
               <td th:if="${book.getOwners().isEmpty()}">no Owner</td>
-              <td th:if="${!book.getOwners().isEmpty()}" th:each="owner : ${book.getOwners()}" th:text="${owner.getFullName()}"></td>
+              <td th:if="${book.getOwners().size() > 0}">
+                <span th:each="owner: ${book.getOwners()}"
+                      th:utext="${owner.getFullName().concat('<br/>')}"
+                      th:if="${!#strings.isEmpty(owner.getFullName())}">
+                 <br/>
+                </span>
+              </td>
+
+
+
+
+
+
+
+
+
+              <!--<td th:if="${!book.getOwners().isEmpty()}" th:each="owner : ${book.getOwners()}" th:text="${owner.getFullName()}"></td>-->
               <td>
                 <a type="button" class="btn btn-secondary" th:href="@{/books/{id}(id=${book.getId()})}">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-pencil-square"

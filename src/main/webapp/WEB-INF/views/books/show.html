@@ -75,7 +75,7 @@
                 <div class="lead mt-5" th:if="${!owners.isEmpty()}">
                     <h3>The book is now:</h3>
 
-                    <div class="mt-2" th:each="owner : ${owners}">
+                    <div class="mt-2 mb-2" th:each="owner : ${owners}">
                         <p th:text="${owner.getFullName()}" style="display: inline;"></p>
                         <form th:method="PATCH" th:action="@{/books/{book_id}/release/{person_id}(book_id=${book.getId()}, person_id=${owner.getId()})}" style="display: inline;">
                             <input type="submit" class="btn btn-lg btn-light fw-bold border-white bg-white" value="Free book" style="display: inline;"/>
