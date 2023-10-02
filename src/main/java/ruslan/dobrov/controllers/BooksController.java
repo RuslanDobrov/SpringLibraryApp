@@ -37,6 +37,35 @@ public class BooksController {
     public String index(Model model,
                         @RequestParam(value = "page", defaultValue = "-1", required = false) int page,
                         @RequestParam(value = "books_per_page", defaultValue = "-1", required = false) int booksPerPage,
+                        @RequestParam(value = "sort_by", defaultValue = "", required = false) String columnName) {
+        if (!columnName.isEmpty()) {
+            List<Book> sortedBooks = booksService.findAllWithSortByColumn(columnName);
+            model.addAttribute("books", sortedBooks);
+//            model.addAttribute("title".equals(columnName) ? "title_asc" : "", title_asc);
+        } else if (page != -1 && booksPerPage != -1) {
+            model.addAttribute("books", booksService.findAllWithPagination(page, booksPerPage));
+            model.addAttribute("page", page);
+            model.addAttribute("booksPerPage", booksPerPage);
+            if (booksService.findAll().size() > 10) {
+                model.addAttribute("numberOfPages",
+                        IntStream.range(
+                                page > 5 ? (page - 5) : 0,
+                                (booksService.findAll().size() - page) > 5 ? (page + 5) : booksService.findAll().size()
+                        ).boxed().collect(Collectors.toList()));
+            } else {
+                model.addAttribute("numberOfPages", IntStream.range(0, booksService.findAll().size() / booksPerPage).boxed().collect(Collectors.toList()));
+            }
+        } else {
+            model.addAttribute("books", booksService.findAll());
+        }
+        return "books/index";
+    }
+
+
+/*    @GetMapping()
+    public String index(Model model,
+                        @RequestParam(value = "page", defaultValue = "-1", required = false) int page,
+                        @RequestParam(value = "books_per_page", defaultValue = "-1", required = false) int booksPerPage,
                         @RequestParam(value = "sort_by", defaultValue = "", required = false) String columName) {
         if (page != -1 && booksPerPage != -1) {
             model.addAttribute("books", booksService.findAllWithPagination(page, booksPerPage));
@@ -72,7 +101,7 @@ public class BooksController {
             model.addAttribute("books", booksService.findAll());
         }
         return "books/index";
-    }
+    }*/
 
     @GetMapping("/{book_id}")
     @Transactional

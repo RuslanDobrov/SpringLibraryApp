@@ -8,6 +8,7 @@
     <title>All books</title>
     <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="/resources/css/cover.css" rel="stylesheet">
+    <link href="/resources/icons/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body class="d-flex h-100 text-center text-bg-dark">
 <div class="w-100 h-100">
@@ -25,13 +26,33 @@
         <div class="row mt-5">
             <div class="col-lg-2 col-md-2 col-sm-1"></div>
             <div class="col-lg-8 col-md-8 col-sm-10 mt-2">
-                <table class="table">
+                <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>Year</th>
-                        <th>Quantity</th>
+                        <th>
+                            <a th:href="@{/books?sort_by=title}">Title</a>
+                            <span th:if="${param.sort_by != null && param.sort_by.get(0).equals('title')}">
+                                <i class="bi bi-caret-down"></i>
+                            </span>
+                        </th>
+                        <th>
+                            <a th:href="@{/books?sort_by=author}">Author</a>
+                            <span th:if="${param.sort_by != null && param.sort_by.get(0).equals('author')}">
+                                <i class="bi bi-caret-down"></i>
+                            </span>
+                        </th>
+                        <th>
+                            <a th:href="@{/books?sort_by=yearPublished}">Year</a>
+                            <span th:if="${param.sort_by != null && param.sort_by.get(0).equals('yearPublished')}">
+                                <i class="bi bi-caret-down"></i>
+                            </span>
+                        </th>
+                        <th>
+                            <a th:href="@{/books?sort_by=totalQuantity}">Quantity</a>
+                            <span th:if="${param.sort_by != null && param.sort_by.get(0).equals('totalQuantity')}">
+                                <i class="bi bi-caret-down"></i>
+                            </span>
+                        </th>
                         <th>Detail</th>
                     </tr>
                     </thead>

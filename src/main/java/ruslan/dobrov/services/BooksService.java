@@ -39,8 +39,8 @@ public class BooksService {
         return booksRepository.findAll(PageRequest.of(page, booksPerPage)).getContent();
     }
 
-    public List<Book> findAllWithSortByColum(String columName) {
-        return booksRepository.findAll(Sort.by(columName));
+    public List<Book> findAllWithSortByColumn(String columnName) {
+        return booksRepository.findAll(Sort.by(columnName));
     }
 
     public Book findOne(int book_id) {
