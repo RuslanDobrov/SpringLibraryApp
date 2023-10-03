@@ -25,6 +25,7 @@ import java.util.Properties;
 @ComponentScan("ruslan.dobrov")
 @EnableWebMvc
 @PropertySource("classpath:hibernate.properties")
+@PropertySource("classpath:application.properties")
 @EnableTransactionManagement
 @EnableJpaRepositories("ruslan.dobrov.repositories")
 public class SpringConfig implements WebMvcConfigurer {

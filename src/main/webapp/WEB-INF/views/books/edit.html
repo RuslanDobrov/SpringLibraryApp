@@ -1,106 +1,40 @@
 <th:block xmlns:th="http://www.thymeleaf.org" th:replace="templates/fragments :: header"></th:block>
-    <main class="px-3 details">
-        <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-1"></div>
-            <div class="col-lg-8 col-md-8 col-sm-10">
-                <form th:method="PATCH" th:action="@{/books/{id}(id=${book.getId()})}" th:object="${book}">
-                    <div class="form-floating mb-3 error">
-                        <input class="form-control" type="text" th:field="*{title}" id="title">
-                        <label class="text-dark" for="title">Title</label>
-                        <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+<main class="px-3 details">
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-1"></div>
+        <div class="col-lg-8 col-md-8 col-sm-10">
+            <form th:method="PATCH" th:action="@{/books/{id}(id=${book.getId()})}" th:object="${book}">
+                <div class="form-floating mb-3 error">
+                    <input class="form-control" type="text" id="title" th:field="*{title}"/>
+                    <label class="text-dark" for="title">Title</label>
+                    <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+                </div>
+                <div class="form-floating mb-3 error">
+                    <input type="text" class="form-control" id="author" th:field="*{author}"/>
+                    <label class="text-dark" for="author">Author</label>
+                    <div class="error" th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></div>
+                </div>
+                <div class="form-floating mb-3 error">
+                    <input type="text" class="form-control" id="yearPublished" th:field="*{yearPublished}"/>
+                    <label class="text-dark" for="yearPublished">Year of published</label>
+                    <div class="error" th:if="${#fields.hasErrors('yearPublished')}" th:errors="*{yearPublished}"></div>
+                </div>
+                <div class="form-floating mb-3 error">
+                    <input type="text" class="form-control" id="totalQuantity" th:field="*{totalQuantity}"/>
+                    <label class="text-dark" for="totalQuantity">Total quantity</label>
+                    <div class="error" th:if="${#fields.hasErrors('totalQuantity')}" th:errors="*{totalQuantity}"></div>
+                </div>
+                <div class="row">
+                    <div class="col text-center">
+                        <p class="lead d-inline-block">
+                            <input class="btn btn-lg btn-light fw-bold border-white bg-white"
+                                   type="submit" value="Edit"/>
+                        </p>
                     </div>
-                    <div class="form-floating mb-3 error">
-                        <input type="text" class="form-control" th:field="*{author}" id="author">
-                        <label class="text-dark" for="author">Author</label>
-                        <div class="error" th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></div>
-                    </div>
-                    <div class="form-floating mb-3 error">
-                        <input type="text" class="form-control" th:field="*{yearPublished}" id="yearPublished">
-                        <label class="text-dark" for="yearPublished">Year of published</label>
-                        <div class="error" th:if="${#fields.hasErrors('yearPublished')}" th:errors="*{yearPublished}"></div>
-                    </div>
-                    <div class="form-floating mb-3 error">
-                        <input type="text" class="form-control" th:field="*{totalQuantity}" id="totalQuantity">
-                        <label class="text-dark" for="totalQuantity">Total quantity</label>
-                        <div class="error" th:if="${#fields.hasErrors('totalQuantity')}" th:errors="*{totalQuantity}"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col text-center">
-                            <p class="lead d-inline-block">
-                                <input type="submit" class="btn btn-lg btn-light fw-bold border-white bg-white" value="Edit"/>
-                            </p>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-1"></div>
+                </div>
+            </form>
         </div>
-    </main>
+        <div class="col-lg-2 col-md-2 col-sm-1"></div>
+    </div>
+</main>
 <th:block xmlns:th="http://www.thymeleaf.org" th:replace="templates/fragments :: footer"></th:block>
-
-<!--
-<!doctype html>
-<html lang="en" class="h-100" data-bs-theme="auto">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Spring Framework Library Application">
-    <meta name="author" content="Ruslan Dobrov">
-    <title>Edit book</title>
-    <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/resources/css/cover.css" rel="stylesheet">
-    <link href="/resources/icons/bootstrap-icons.css" rel="stylesheet">
-</head>
-<body class="d-flex h-100 text-center text-bg-dark">
-<div class="w-100 h-100">
-    <header class="cover-container d-flex p-3 mx-auto flex-column mb-auto">
-        <div>
-            <h3 class="float-md-start mb-0"><a class="nav-link" href="/">Spring Library Application</a></h3>
-            <nav class="nav nav-masthead justify-content-center float-md-end">
-                <a class="nav-link fw-bold py-1 px-0" href="/people">People</a>
-                <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="/books">Books</a>
-                <a class="nav-link fw-bold py-1 px-0" href="/search">Search</a>
-            </nav>
-        </div>
-    </header>
-    <main class="px-3 details">
-        <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-1"></div>
-            <div class="col-lg-8 col-md-8 col-sm-10">
-                <form th:method="PATCH" th:action="@{/books/{id}(id=${book.getId()})}" th:object="${book}">
-                    <div class="form-floating mb-3 error">
-                        <input class="form-control" type="text" th:field="*{title}" id="title">
-                        <label class="text-dark" for="title">Title</label>
-                        <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
-                    </div>
-                    <div class="form-floating mb-3 error">
-                        <input type="text" class="form-control" th:field="*{author}" id="author">
-                        <label class="text-dark" for="author">Author</label>
-                        <div class="error" th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></div>
-                    </div>
-                    <div class="form-floating mb-3 error">
-                        <input type="text" class="form-control" th:field="*{yearPublished}" id="yearPublished">
-                        <label class="text-dark" for="yearPublished">Year of published</label>
-                        <div class="error" th:if="${#fields.hasErrors('yearPublished')}" th:errors="*{yearPublished}"></div>
-                    </div>
-                    <div class="form-floating mb-3 error">
-                        <input type="text" class="form-control" th:field="*{totalQuantity}" id="totalQuantity">
-                        <label class="text-dark" for="totalQuantity">Total quantity</label>
-                        <div class="error" th:if="${#fields.hasErrors('totalQuantity')}" th:errors="*{totalQuantity}"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col text-center">
-                            <p class="lead d-inline-block">
-                                <input type="submit" class="btn btn-lg btn-light fw-bold border-white bg-white" value="Edit"/>
-                            </p>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-1"></div>
-        </div>
-    </main>
-</div>
-<script src="/resources/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>-->

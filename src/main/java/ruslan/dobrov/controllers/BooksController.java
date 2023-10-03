@@ -2,6 +2,8 @@ package ruslan.dobrov.controllers;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -43,75 +45,56 @@ public class BooksController {
         return "books";
     }
 
-    @GetMapping()
-    public String index(Model model,
-                        @RequestParam(value = "page", defaultValue = "-1", required = false) int page,
-                        @RequestParam(value = "books_per_page", defaultValue = "-1", required = false) int booksPerPage,
-                        @RequestParam(value = "sort_by", defaultValue = "", required = false) String columnName) {
-        if (!columnName.isEmpty()) {
-            List<Book> sortedBooks = booksService.findAllWithSortByColumn(columnName);
-            model.addAttribute("books", sortedBooks);
-//            model.addAttribute("title".equals(columnName) ? "title_asc" : "", title_asc);
-        } else if (page != -1 && booksPerPage != -1) {
-            model.addAttribute("books", booksService.findAllWithPagination(page, booksPerPage));
-            model.addAttribute("page", page);
-            model.addAttribute("booksPerPage", booksPerPage);
-            if (booksService.findAll().size() > 10) {
-                model.addAttribute("numberOfPages",
-                        IntStream.range(
-                                page > 5 ? (page - 5) : 0,
-                                (booksService.findAll().size() - page) > 5 ? (page + 5) : booksService.findAll().size()
-                        ).boxed().collect(Collectors.toList()));
-            } else {
-                model.addAttribute("numberOfPages", IntStream.range(0, booksService.findAll().size() / booksPerPage).boxed().collect(Collectors.toList()));
-            }
-        } else {
-            model.addAttribute("books", booksService.findAll());
-        }
-        return "books/index";
+    @ModelAttribute("booksPerPage")
+    public String booksPerPage() {
+        return "${books.per.page}";
     }
 
+    @ModelAttribute("sortByTitle")
+    public String sortByTitle() {
+        return "${sort.by.title}";
+    }
 
-/*    @GetMapping()
+    @ModelAttribute("sortByAuthor")
+    public String sortByAuthor() {
+        return "${sort.by.author}";
+    }
+
+    @ModelAttribute("sortByYearPublished")
+    public String sortByYearPublished() {
+        return "${sort.by.yearPublished}";
+    }
+
+    @ModelAttribute("sortByTotalQuantity")
+    public String sortByTotalQuantity() {
+        return "${sort.by.totalQuantity}";
+    }
+
+    @GetMapping()
     public String index(Model model,
-                        @RequestParam(value = "page", defaultValue = "-1", required = false) int page,
-                        @RequestParam(value = "books_per_page", defaultValue = "-1", required = false) int booksPerPage,
-                        @RequestParam(value = "sort_by", defaultValue = "", required = false) String columName) {
-        if (page != -1 && booksPerPage != -1) {
-            model.addAttribute("books", booksService.findAllWithPagination(page, booksPerPage));
-            model.addAttribute("page", page);
-            model.addAttribute("booksPerPage", booksPerPage);
+                        @RequestParam(value = "page", defaultValue = "0") int page,
+                        @RequestParam(value = "books_per_page", defaultValue = "${books.per.page}") int booksPerPage,
+                        @RequestParam(value = "sort_by",  defaultValue = "${sort.by.title}") String columnName) {
+        int totalBooks = booksService.findAll().size();
+        int totalPages = (int) Math.ceil((double) totalBooks / booksPerPage);
 
-//            List<Book> allBooks = booksServices.findAll();
-//            int totalPages = (int) Math.ceil((double) allBooks.size() / 10); // Подсчет общего количества страниц
-//
-//            if (totalPages > 0) {
-//                List<Integer> pageNumbers = IntStream.rangeClosed(
-//                        Math.max(1, page - 5),
-//                        Math.min(totalPages, page + 5)
-//                ).boxed().collect(Collectors.toList());
-//
-//                model.addAttribute("numberOfPages", pageNumbers);
-//            }
+        // Ограничьте номер страницы в диапазоне от 0 до (totalPages - 1).
+        page = Math.max(0, Math.min(page, totalPages - 1));
 
+        Page<Book> sortedBooks = booksService.findAllWithPaginationAndSortByColumn(page, booksPerPage, columnName);
+        model.addAttribute("books", sortedBooks);
+        model.addAttribute("page", page);
+        model.addAttribute("booksPerPage", booksPerPage);
 
-            if(booksService.findAll().size() > 10) {
-                model.addAttribute("numberOfPages",
-                        IntStream.range(
-                                page > 5 ? (page - 5) : 0,
-                                (booksService.findAll().size() - page) > 5 ? (page + 5) : booksService.findAll().size()
-                        ).boxed().collect(Collectors.toList()));
-            }
-            else {
-                model.addAttribute("numberOfPages", IntStream.range(0, booksService.findAll().size() / booksPerPage).boxed().collect(Collectors.toList()));
-            }
-        } else if (!columName.isEmpty()){
-           model.addAttribute("books", booksService.findAllWithSortByColum(columName));
-        } else {
-            model.addAttribute("books", booksService.findAll());
-        }
+        // Создайте список кнопок для страниц.
+        List<Integer> pageNumbers = IntStream.range(0, totalPages)
+                .boxed()
+                .collect(Collectors.toList());
+
+        model.addAttribute("numberOfPages", pageNumbers);
+
         return "books/index";
-    }*/
+    }
 
     @GetMapping("/{book_id}")
     @Transactional

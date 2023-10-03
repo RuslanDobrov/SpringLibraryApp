@@ -2,6 +2,7 @@ package ruslan.dobrov.services;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,11 @@ public class BooksService {
 
     public List<Book> findAllWithSortByColumn(String columnName) {
         return booksRepository.findAll(Sort.by(columnName));
+    }
+
+    public Page<Book> findAllWithPaginationAndSortByColumn(int page, int booksPerPage, String columnName) {
+        PageRequest pageRequest = PageRequest.of(page, booksPerPage, Sort.by(columnName));
+        return booksRepository.findAll(pageRequest);
     }
 
     public Book findOne(int book_id) {

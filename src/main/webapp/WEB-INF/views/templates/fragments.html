@@ -9,13 +9,15 @@
         <title th:text="${titlePage}">Page Title</title>
         <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
         <link href="/resources/css/cover.css" rel="stylesheet">
-        <link href="/resources/icons/bootstrap-icons.css" rel="stylesheet">
+        <link href="/resources/icons/bootstrap-icons.min.css" rel="stylesheet">
     </head>
     <body class="d-flex h-100 text-center text-bg-dark">
     <div class="w-100 h-100">
         <header class="cover-container d-flex p-3 mx-auto flex-column mb-auto">
             <div>
-                <h3 class="float-md-start mb-0"><a class="nav-link" href="/">Spring Library Application</a></h3>
+                <h3 class="float-md-start mb-0">
+                    <a class="nav-link" href="/">Spring Library Application</a>
+                </h3>
                 <nav class="nav nav-masthead justify-content-center float-md-end">
                     <a class="nav-link fw-bold py-1 px-0"
                        th:classappend="${currentPage == 'people'} ? 'active' : ''"
@@ -27,7 +29,6 @@
                        th:classappend="${currentPage == 'search'} ? 'active' : ''"
                        href="/search">Search</a>
                 </nav>
-
             </div>
         </header>
 </th:block>
