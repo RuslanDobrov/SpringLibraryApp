@@ -33,6 +33,16 @@ public class BooksController {
         this.personBookService = personBookService;
     }
 
+    @ModelAttribute("titlePage")
+    public String titlePage() {
+        return "Books";
+    }
+
+    @ModelAttribute("currentPage")
+    public String currentPage() {
+        return "books";
+    }
+
     @GetMapping()
     public String index(Model model,
                         @RequestParam(value = "page", defaultValue = "-1", required = false) int page,

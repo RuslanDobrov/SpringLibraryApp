@@ -1,3 +1,85 @@
+<th:block xmlns:th="http://www.thymeleaf.org" th:replace="templates/fragments :: header"></th:block>
+    <main class="px-3 details">
+        <div class="row mt-5">
+            <div class="col-lg-2 col-md-2 col-sm-1"></div>
+            <div class="col-lg-8 col-md-8 col-sm-10 mt-2">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            <a th:href="@{/books?sort_by=title}">Title</a>
+                            <span th:if="${param.sort_by != null && param.sort_by.get(0).equals('title')}">
+                                <i class="bi bi-caret-down"></i>
+                            </span>
+                        </th>
+                        <th>
+                            <a th:href="@{/books?sort_by=author}">Author</a>
+                            <span th:if="${param.sort_by != null && param.sort_by.get(0).equals('author')}">
+                                <i class="bi bi-caret-down"></i>
+                            </span>
+                        </th>
+                        <th>
+                            <a th:href="@{/books?sort_by=yearPublished}">Year</a>
+                            <span th:if="${param.sort_by != null && param.sort_by.get(0).equals('yearPublished')}">
+                                <i class="bi bi-caret-down"></i>
+                            </span>
+                        </th>
+                        <th>
+                            <a th:href="@{/books?sort_by=totalQuantity}">Quantity</a>
+                            <span th:if="${param.sort_by != null && param.sort_by.get(0).equals('totalQuantity')}">
+                                <i class="bi bi-caret-down"></i>
+                            </span>
+                        </th>
+                        <th>Detail</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="book : ${books}">
+                    <tr class="align-middle">
+                        <td th:text="${book.getTitle()}"></td>
+                        <td th:text="${book.getAuthor()}"></td>
+                        <td th:text="${book.getYearPublished()}"></td>
+                        <td th:text="${book.getTotalQuantity()}"></td>
+                        <td>
+                            <a type="button" class="btn btn-secondary" th:href="@{/books/{id}(id=${book.getId()})}">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-pencil-square"
+                                     height="25" width="25" viewBox="0 0 15 18">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>
+                                    <path fill-rule="evenodd"
+                                          d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-1"></div>
+        </div>
+
+        <div class="container" th:if="${numberOfPages != null}">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-1"></div>
+                <div class="col-lg-8 col-md-8 col-sm-10 mt-2 text-center">
+                    <a th:each="pageNumber : ${numberOfPages}"
+                       th:href="@{/books(page=${pageNumber}, books_per_page=${booksPerPage})}"
+                       th:text="${pageNumber + 1}"
+                       th:class="${pageNumber == page} ? 'mx-2 btn btn-lg btn-light fw-bold border-white bg-white' : 'mx-2 btn btn-lg btn-light fw-bold border-white bg-dark text-white'">Page number</a>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-1"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col text-center mt-5">
+                <p class="lead d-inline-block">
+                    <a href="/books/new" class="btn btn-lg btn-light fw-bold border-white bg-white">Add book</a>
+                </p>
+            </div>
+        </div>
+    </main>
+<th:block xmlns:th="http://www.thymeleaf.org" th:replace="templates/fragments :: footer"></th:block>
+
+<!--
 <!doctype html>
 <html lang="en" class="h-100" data-bs-theme="auto">
 <head>
@@ -103,4 +185,4 @@
 </div>
 <script src="/resources/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
+</html>-->

@@ -1,3 +1,53 @@
+<th:block xmlns:th="http://www.thymeleaf.org" th:replace="templates/fragments :: header"></th:block>
+    <main class="px-3">
+        <div class="row mt-5">
+            <div class="col-lg-3 col-md-3 col-sm-2"></div>
+            <div class="col-lg-6 col-md-6 col-sm-8">
+                <h1 th:text="${person.getFullName() + ', ' + person.getBirthYear()}"></h1>
+                <div class="container mt-2">
+                    <div class="row">
+                        <div class="col">
+                            <form class="lead d-inline-block me-lg-2" th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
+                                <input class="btn btn-lg btn-light fw-bold border-white bg-white" type="submit" value="Edit"/>
+                            </form>
+                            <form class="lead d-inline-block" th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+                                <input class="btn btn-lg btn-danger fw-bold border-white bg-danger" type="submit" value="Delete"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="lead mt-5" th:if="${books.isEmpty()}">
+                    <p>The person hasn't got any books yet</p>
+                </div>
+                <div class="lead mt-5" th:if="${!books.isEmpty()}">
+                    <h3>Books:</h3>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Year</th>
+                            <th>Expired</th>
+                        </tr>
+                        </thead>
+                        <tbody th:each="book : ${books}">
+                        <tr>
+                            <td th:text="${book.getBook().getTitle()}"></td>
+                            <td th:text="${book.getBook().getAuthor()}"></td>
+                            <td th:text="${book.getBook().getYearPublished()}"></td>
+                            <td th:if="${book.getExpired()}" th:class="${'error'}" th:text="Yes"></td>
+                            <td th:if="${!book.getExpired()}" th:text="No"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-2"></div>
+        </div>
+    </main>
+<th:block xmlns:th="http://www.thymeleaf.org" th:replace="templates/fragments :: footer"></th:block>
+
+<!--
 <!doctype html>
 <html lang="en" class="h-100" data-bs-theme="auto">
 <head>
@@ -71,4 +121,4 @@
 </div>
 <script src="/resources/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
+</html>-->

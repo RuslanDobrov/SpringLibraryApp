@@ -1,3 +1,75 @@
+<th:block xmlns:th="http://www.thymeleaf.org" th:replace="templates/fragments :: header"></th:block>
+    <main class="px-3">
+        <div class="row mt-5">
+            <div class="col-lg-3 col-md-3 col-sm-2"></div>
+            <div class="col-lg-6 col-md-6 col-sm-8">
+                <h1 th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYearPublished() + '. Quantity: ' + book.getTotalQuantity()}"></h1>
+                <div class="container mt-2">
+                    <div class="row">
+                        <div class="col">
+                            <form class="lead d-inline-block me-lg-2" th:method="GET" th:action="@{/books/{id}/edit(id=${book.getId()})}">
+                                <input class="btn btn-lg btn-light fw-bold border-white bg-white" type="submit" value="Edit"/>
+                            </form>
+                            <form class="lead d-inline-block" th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
+                                <input class="btn btn-lg btn-danger fw-bold border-white bg-danger" type="submit" value="Delete"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!--                <div class="lead mt-5" th:if="${owners}">-->
+                <!--                    <h3>The book is now:</h3>-->
+
+                <!--                    <div th:each="owner : ${owners}">-->
+                <!--                        <p th:text="${owner.getFullName()}" style="display: inline;"></p>-->
+                <!--                        <form th:method="PATCH" th:action="@{/books/{book_id}/release/{person_id}(book_id=${book.getId()}, person_id=${owner.getId()})}" style="display: inline;">-->
+                <!--                            <input type="submit" class="btn btn-lg btn-light fw-bold border-white bg-white" value="Free book" style="display: inline;"/>-->
+                <!--                        </form>-->
+                <!--                    </div>-->
+
+                <!--                </div>-->
+
+                <!--                <div class="lead mt-5" th:if="${people}">-->
+                <!--                    <h3>This book is free. To whom should she be assigned?</h3>-->
+                <!--                    <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}">-->
+                <!--                        <label for="person">Choose a person:</label>-->
+                <!--                        <select class="form-select mt-2" aria-label="Choose a person" th:object="${person}" th:field="*{id}" id="person">-->
+                <!--                            <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getFullName()}"></option>-->
+                <!--                        </select>-->
+                <!--                        <input type="submit" class="btn btn-lg btn-light fw-bold border-white bg-white mt-2" value="Assign book"/>-->
+                <!--                    </form>-->
+                <!--                </div>-->
+
+                <div class="lead mt-5" th:if="${book.getTotalQuantity() != 0}">
+                    <h3>To whom should she be assigned?</h3>
+                    <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}">
+                        <label for="person">Choose a person:</label>
+                        <select class="form-select mt-2" aria-label="Choose a person" th:object="${person}" th:field="*{id}" id="person">
+                            <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getFullName()}"></option>
+                        </select>
+                        <input type="submit" class="btn btn-lg btn-light fw-bold border-white bg-white mt-2" value="Assign book"/>
+                    </form>
+                </div>
+
+                <div class="lead mt-5" th:if="${!owners.isEmpty()}">
+                    <h3>The book is now:</h3>
+
+                    <div class="mt-2 mb-2" th:each="owner : ${owners}">
+                        <p th:text="${owner.getFullName()}" style="display: inline;"></p>
+                        <form th:method="PATCH" th:action="@{/books/{book_id}/release/{person_id}(book_id=${book.getId()}, person_id=${owner.getId()})}" style="display: inline;">
+                            <input type="submit" class="btn btn-lg btn-light fw-bold border-white bg-white" value="Free book" style="display: inline;"/>
+                        </form>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-2"></div>
+        </div>
+    </main>
+<th:block xmlns:th="http://www.thymeleaf.org" th:replace="templates/fragments :: footer"></th:block>
+
+<!--
 <!doctype html>
 <html lang="en" class="h-100" data-bs-theme="auto">
 <head>
@@ -39,28 +111,28 @@
                         </div>
                     </div>
                 </div>
-<!--                <div class="lead mt-5" th:if="${owners}">-->
-<!--                    <h3>The book is now:</h3>-->
+&lt;!&ndash;                <div class="lead mt-5" th:if="${owners}">&ndash;&gt;
+&lt;!&ndash;                    <h3>The book is now:</h3>&ndash;&gt;
 
-<!--                    <div th:each="owner : ${owners}">-->
-<!--                        <p th:text="${owner.getFullName()}" style="display: inline;"></p>-->
-<!--                        <form th:method="PATCH" th:action="@{/books/{book_id}/release/{person_id}(book_id=${book.getId()}, person_id=${owner.getId()})}" style="display: inline;">-->
-<!--                            <input type="submit" class="btn btn-lg btn-light fw-bold border-white bg-white" value="Free book" style="display: inline;"/>-->
-<!--                        </form>-->
-<!--                    </div>-->
+&lt;!&ndash;                    <div th:each="owner : ${owners}">&ndash;&gt;
+&lt;!&ndash;                        <p th:text="${owner.getFullName()}" style="display: inline;"></p>&ndash;&gt;
+&lt;!&ndash;                        <form th:method="PATCH" th:action="@{/books/{book_id}/release/{person_id}(book_id=${book.getId()}, person_id=${owner.getId()})}" style="display: inline;">&ndash;&gt;
+&lt;!&ndash;                            <input type="submit" class="btn btn-lg btn-light fw-bold border-white bg-white" value="Free book" style="display: inline;"/>&ndash;&gt;
+&lt;!&ndash;                        </form>&ndash;&gt;
+&lt;!&ndash;                    </div>&ndash;&gt;
 
-<!--                </div>-->
+&lt;!&ndash;                </div>&ndash;&gt;
 
-<!--                <div class="lead mt-5" th:if="${people}">-->
-<!--                    <h3>This book is free. To whom should she be assigned?</h3>-->
-<!--                    <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}">-->
-<!--                        <label for="person">Choose a person:</label>-->
-<!--                        <select class="form-select mt-2" aria-label="Choose a person" th:object="${person}" th:field="*{id}" id="person">-->
-<!--                            <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getFullName()}"></option>-->
-<!--                        </select>-->
-<!--                        <input type="submit" class="btn btn-lg btn-light fw-bold border-white bg-white mt-2" value="Assign book"/>-->
-<!--                    </form>-->
-<!--                </div>-->
+&lt;!&ndash;                <div class="lead mt-5" th:if="${people}">&ndash;&gt;
+&lt;!&ndash;                    <h3>This book is free. To whom should she be assigned?</h3>&ndash;&gt;
+&lt;!&ndash;                    <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}">&ndash;&gt;
+&lt;!&ndash;                        <label for="person">Choose a person:</label>&ndash;&gt;
+&lt;!&ndash;                        <select class="form-select mt-2" aria-label="Choose a person" th:object="${person}" th:field="*{id}" id="person">&ndash;&gt;
+&lt;!&ndash;                            <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getFullName()}"></option>&ndash;&gt;
+&lt;!&ndash;                        </select>&ndash;&gt;
+&lt;!&ndash;                        <input type="submit" class="btn btn-lg btn-light fw-bold border-white bg-white mt-2" value="Assign book"/>&ndash;&gt;
+&lt;!&ndash;                    </form>&ndash;&gt;
+&lt;!&ndash;                </div>&ndash;&gt;
 
                 <div class="lead mt-5" th:if="${book.getTotalQuantity() != 0}">
                     <h3>To whom should she be assigned?</h3>
@@ -93,4 +165,4 @@
 </div>
 <script src="/resources/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
+</html>-->

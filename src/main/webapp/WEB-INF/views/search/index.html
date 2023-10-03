@@ -1,3 +1,63 @@
+<th:block xmlns:th="http://www.thymeleaf.org" th:replace="templates/fragments :: header"></th:block>
+<main class="px-3 details">
+
+  <div class="row mt-5">
+    <div class="col-lg-2 col-md-2 col-sm-1"></div>
+    <div class="col-lg-8 col-md-8 col-sm-10 mt-2 d-lg-flex justify-content-center">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 d-flex" role="search">
+          <input class="form-control form-control-lg" type="search" placeholder="Book title" aria-label="Search"
+                 th:method="POST" th:action="@{/search}" th:name="query">
+          <input type="submit" class="btn btn-lg btn-light fw-bold border-white bg-white mx-2" value="Search"/>
+        </form>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-1"></div>
+  </div>
+
+  <div class="container mt-2 text-center" th:if="${books != null && books.size() == 0}">
+    <p class="lead">Book not found</p>
+  </div>
+
+  <div class="container" th:if="${books != null && !books.isEmpty()}">
+    <div class="row">
+      <div class="col-lg-2 col-md-2 col-sm-1"></div>
+      <div class="col-lg-8 col-md-8 col-sm-10 mt-2 text-center">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Owner</th>
+            <th>Detail</th>
+          </tr>
+          </thead>
+          <tbody th:each="book : ${books}">
+          <tr class="align-middle">
+            <td th:text="${book.getTitle()}"></td>
+            <td th:text="${book.getAuthor()}"></td>
+            <td th:if="${book.getOwners().isEmpty()}">no Owner</td>
+            <td th:if="${!book.getOwners().isEmpty()}">
+              <th:block th:each="owner: ${book.getOwners()}" th:utext="${owner.getFullName().concat('<br/>')}"></th:block>
+            </td>
+            <td>
+              <a type="button" class="btn btn-secondary" th:href="@{/books/{id}(id=${book.getId()})}">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-1"></div>
+    </div>
+  </div>
+
+</main>
+<th:block xmlns:th="http://www.thymeleaf.org" th:replace="templates/fragments :: footer"></th:block>
+
+<!--
 <!doctype html>
 <html lang="en" class="h-100" data-bs-theme="auto">
 <head>
@@ -66,7 +126,7 @@
                       th:utext="${owner.getFullName().concat('<br/>')}">
                 </span>
               </td>
-              <!--<td th:if="${!book.getOwners().isEmpty()}" th:each="owner : ${book.getOwners()}" th:text="${owner.getFullName()}"></td>-->
+              &lt;!&ndash;<td th:if="${!book.getOwners().isEmpty()}" th:each="owner : ${book.getOwners()}" th:text="${owner.getFullName()}"></td>&ndash;&gt;
               <td>
                 <a type="button" class="btn btn-secondary" th:href="@{/books/{id}(id=${book.getId()})}">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-pencil-square"
@@ -89,4 +149,4 @@
 </div>
 <script src="/resources/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
+</html>-->

@@ -23,6 +23,16 @@ public class PeopleController {
         this.personValidator = personValidator;
     }
 
+    @ModelAttribute("titlePage")
+    public String titlePage() {
+        return "People";
+    }
+
+    @ModelAttribute("currentPage")
+    public String currentPage() {
+        return "people";
+    }
+
     @GetMapping()
     public String index(Model model) {
         model.addAttribute("people", peopleService.findAll());
