@@ -7,25 +7,33 @@
                 <thead>
                 <tr>
                     <th>
-                        <a th:href="@{/books?sort_by=sortByTitle}">Title</a>
+                        <a th:href="@{/books(page=${param.page[0]},
+                                       books_per_page=${param.books_per_page[0]},
+                                       sort_by=${sortByTitle})}">Title</a>
                         <span th:if="${param.sort_by != null && param.sort_by.get(0).equals(sortByTitle)}">
                                 <i class="bi bi-caret-down"></i>
                         </span>
                     </th>
                     <th>
-                        <a th:href="@{/books?sort_by=sortByAuthor}">Author</a>
+                        <a th:href="@{/books(page=${param.page[0]},
+                                       books_per_page=${param.books_per_page[0]},
+                                       sort_by=${sortByAuthor})}">Author</a>
                         <span th:if="${param.sort_by != null && param.sort_by.get(0).equals(sortByAuthor)}">
                                 <i class="bi bi-caret-down"></i>
                         </span>
                     </th>
                     <th>
-                        <a th:href="@{/books?sort_by=sortByYearPublished}">Year</a>
+                        <a th:href="@{/books(page=${param.page[0]},
+                                       books_per_page=${param.books_per_page[0]},
+                                       sort_by=${sortByYearPublished})}">Year</a>
                         <span th:if="${param.sort_by != null && param.sort_by.get(0).equals(sortByYearPublished)}">
                                 <i class="bi bi-caret-down"></i>
                         </span>
                     </th>
                     <th>
-                        <a th:href="@{/books?sort_by=sortByTotalQuantity}">Quantity</a>
+                        <a th:href="@{/books(page=${param.page[0]},
+                                       books_per_page=${param.books_per_page[0]},
+                                       sort_by=${sortByTotalQuantity})}">Quantity</a>
                         <span th:if="${param.sort_by != null && param.sort_by.get(0).equals(sortByTotalQuantity)}">
                                 <i class="bi bi-caret-down"></i>
                         </span>

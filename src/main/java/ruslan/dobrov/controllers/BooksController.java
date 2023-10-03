@@ -45,36 +45,11 @@ public class BooksController {
         return "books";
     }
 
-    @ModelAttribute("booksPerPage")
-    public String booksPerPage() {
-        return "${books.per.page}";
-    }
-
-    @ModelAttribute("sortByTitle")
-    public String sortByTitle() {
-        return "${sort.by.title}";
-    }
-
-    @ModelAttribute("sortByAuthor")
-    public String sortByAuthor() {
-        return "${sort.by.author}";
-    }
-
-    @ModelAttribute("sortByYearPublished")
-    public String sortByYearPublished() {
-        return "${sort.by.yearPublished}";
-    }
-
-    @ModelAttribute("sortByTotalQuantity")
-    public String sortByTotalQuantity() {
-        return "${sort.by.totalQuantity}";
-    }
-
     @GetMapping()
     public String index(Model model,
-                        @RequestParam(value = "page", defaultValue = "0") int page,
-                        @RequestParam(value = "books_per_page", defaultValue = "${books.per.page}") int booksPerPage,
-                        @RequestParam(value = "sort_by",  defaultValue = "${sort.by.title}") String columnName) {
+                        @RequestParam(value = "page", defaultValue = "${default.page}") int page,
+                        @RequestParam(value = "books_per_page", defaultValue = "${default.books.per.page}") int booksPerPage,
+                        @RequestParam(value = "sort_by",  defaultValue = "${default.sort.by}") String columnName) {
         int totalBooks = booksService.findAll().size();
         int totalPages = (int) Math.ceil((double) totalBooks / booksPerPage);
 
