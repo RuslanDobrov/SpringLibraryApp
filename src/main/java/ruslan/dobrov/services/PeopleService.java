@@ -9,12 +9,17 @@ import ruslan.dobrov.models.PersonBook;
 import ruslan.dobrov.repositories.PeopleRepository;
 import ruslan.dobrov.repositories.PersonBookRepository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
 public class PeopleService {
+    @PersistenceContext
+    private EntityManager entityManager;
+
     private final PeopleRepository peopleRepository;
     private final PersonBookRepository personBookRepository;
 
@@ -57,6 +62,16 @@ public class PeopleService {
         } else {
             return Collections.emptyList();
         }
+    }
+
+    public List<Person> searchPersonByName(String keyword) {
+        List<Person> people = entityManager.createQuery("SELECT p FROM Person p WHERE LOWER(p.fullName) LIKE LOWER(:keyword)", Person.class)
+                .setParameter("keyword", "%" + keyword + "%")
+                .getResultList();
+        for (Person person : people) {
+            Hibernate.initialize(person.getBooks());
+        }
+        return people;
     }
 
     public Boolean isExpired(PersonBook book) {

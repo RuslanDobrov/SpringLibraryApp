@@ -1,8 +1,6 @@
 package ruslan.dobrov.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ruslan.dobrov.models.Book;
-import ruslan.dobrov.models.Person;
 import ruslan.dobrov.models.PersonBook;
 
 import java.util.List;

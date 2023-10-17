@@ -14,11 +14,16 @@ import ruslan.dobrov.repositories.BooksRepository;
 import ruslan.dobrov.repositories.PeopleRepository;
 import ruslan.dobrov.repositories.PersonBookRepository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
 public class BooksService {
+    @PersistenceContext
+    private EntityManager entityManager;
+
     private final BooksRepository booksRepository;
     private final PeopleRepository peopleRepository;
     private final PersonBookRepository personBookRepository;
@@ -36,14 +41,6 @@ public class BooksService {
         return booksRepository.findAll();
     }
 
-    public List<Book> findAllWithPagination(int page, int booksPerPage) {
-        return booksRepository.findAll(PageRequest.of(page, booksPerPage)).getContent();
-    }
-
-    public List<Book> findAllWithSortByColumn(String columnName) {
-        return booksRepository.findAll(Sort.by(columnName));
-    }
-
     public Page<Book> findAllWithPaginationAndSortByColumn(int page, int booksPerPage, String columnName) {
         PageRequest pageRequest = PageRequest.of(page, booksPerPage, Sort.by(columnName));
         return booksRepository.findAll(pageRequest);
@@ -54,12 +51,24 @@ public class BooksService {
         return foundBook.orElse(null);
     }
 
-    public List<Book> findByTitleStartingWith(String title) {
-        List<Book> books = booksRepository.findBookByTitleStartingWith(title); // Получение объекта Book
+    public List<Book> searchBooksByTitle(String keyword) {
+        List<Book> books = entityManager.createQuery("SELECT b FROM Book b WHERE LOWER(b.title) LIKE LOWER(:keyword)", Book.class)
+                .setParameter("keyword", "%" + keyword + "%")
+                .getResultList();
         for (Book book : books) {
-            Hibernate.initialize(book.getOwners()); // Инициализация коллекции owners для каждой книги
+            Hibernate.initialize(book.getOwners());
         }
-       return books;
+        return books;
+    }
+
+    public List<Book> searchBooksByAuthor(String keyword) {
+        List<Book> books = entityManager.createQuery("SELECT b FROM Book b WHERE LOWER(b.author) LIKE LOWER(:keyword)", Book.class)
+                .setParameter("keyword", "%" + keyword + "%")
+                .getResultList();
+        for (Book book : books) {
+            Hibernate.initialize(book.getOwners());
+        }
+        return books;
     }
 
     @Transactional
