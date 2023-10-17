@@ -32,15 +32,23 @@
                         <th>Author</th>
                         <th>Year</th>
                         <th>Expired</th>
+                        <th>Release book</th>
                     </tr>
                     </thead>
                     <tbody th:each="book : ${books}">
-                    <tr>
+                    <tr class="align-middle text-center">
                         <td th:text="${book.getBook().getTitle()}"></td>
                         <td th:text="${book.getBook().getAuthor()}"></td>
                         <td th:text="${book.getBook().getYearPublished()}"></td>
                         <td th:if="${book.getExpired()}" th:class="${'error'}" th:text="Yes"></td>
                         <td th:if="${!book.getExpired()}" th:text="No"></td>
+                        <td>
+                            <form th:method="PATCH"
+                                  th:action="@{/books/{book_id}/release/{person_id}(book_id=${book.getBook().getId()}, person_id=${person.getId()})}">
+                                <input class="btn btn-md btn-warning"
+                                       type="submit" value="Release"/>
+                            </form>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
