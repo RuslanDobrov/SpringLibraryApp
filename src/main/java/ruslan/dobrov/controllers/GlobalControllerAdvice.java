@@ -7,59 +7,83 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @ControllerAdvice
 public class GlobalControllerAdvice {
 
-    @Value("${default.page}")
-    private int defaultPage;
+    @Value("${default.page.number}")
+    private int defaultPageNumber;
 
-    @Value("${default.books.per.page}")
-    private int defaultBooksPerPage;
+    @Value("${default.records.per.page}")
+    private int defaultRecordsPerPage;
 
-    @Value("${default.sort.by}")
-    private String defaultSortBy;
+    @Value("${default.books.sort.by}")
+    private String defaultBooksSortBy;
 
-    @Value("${sort.by.title}")
-    private String sortByTitle;
+    @Value("${default.people.sort.by}")
+    private String defaultPeopleSortBy;
 
-    @Value("${sort.by.author}")
-    private String sortByAuthor;
+    @Value("${sort.books.by.title}")
+    private String sortBooksByTitle;
 
-    @Value("${sort.by.yearPublished}")
-    private String sortByYearPublished;
+    @Value("${sort.books.by.author}")
+    private String sortBooksByAuthor;
 
-    @Value("${sort.by.totalQuantity}")
-    private String sortByTotalQuantity;
+    @Value("${sort.books.by.yearPublished}")
+    private String sortBooksByYearPublished;
 
-    @ModelAttribute("defaultPage")
-    public int defaultPage() {
-        return defaultPage;
+    @Value("${sort.books.by.totalQuantity}")
+    private String sortBooksByTotalQuantity;
+
+    @Value("${sort.people.by.fullName}")
+    private String sortPeopleByFullName;
+
+    @Value("${sort.people.by.birthYear}")
+    private String sortPeopleByBirthYear;
+
+    @ModelAttribute("defaultPageNumber")
+    public int defaultPageNumber() {
+        return defaultPageNumber;
     }
 
-    @ModelAttribute("defaultBooksPerPage")
-    public int defaultBooksPerPage() {
-        return defaultBooksPerPage;
+    @ModelAttribute("defaultRecordsPerPage")
+    public int defaultRecordsPerPage() {
+        return defaultRecordsPerPage;
     }
 
-    @ModelAttribute("defaultSortBy")
-    public String defaultSortBy() {
-        return defaultSortBy;
+    @ModelAttribute("defaultBooksSortBy")
+    public String defaultBooksSortBy() {
+        return defaultBooksSortBy;
     }
 
-    @ModelAttribute("sortByTitle")
-    public String sortByTitle() {
-        return sortByTitle;
+    @ModelAttribute("defaultPeopleSortBy")
+    public String defaultPeopleSortBy() {
+        return defaultPeopleSortBy;
     }
 
-    @ModelAttribute("sortByAuthor")
-    public String sortByAuthor() {
-        return sortByAuthor;
+    @ModelAttribute("sortBooksByTitle")
+    public String sortBooksByTitle() {
+        return sortBooksByTitle;
     }
 
-    @ModelAttribute("sortByYearPublished")
-    public String sortByYearPublished() {
-        return sortByYearPublished;
+    @ModelAttribute("sortBooksByAuthor")
+    public String sortBooksByAuthor() {
+        return sortBooksByAuthor;
     }
 
-    @ModelAttribute("sortByTotalQuantity")
-    public String sortByTotalQuantity() {
-        return sortByTotalQuantity;
+    @ModelAttribute("sortBooksByYearPublished")
+    public String sortBooksByYearPublished() {
+        return sortBooksByYearPublished;
+    }
+
+    @ModelAttribute("sortBooksByTotalQuantity")
+    public String sortBooksByTotalQuantity() {
+        return sortBooksByTotalQuantity;
+    }
+
+    @ModelAttribute("sortPeopleByFullName")
+    public String sortPeopleByFullName() {
+        return sortPeopleByFullName;
+    }
+
+    @ModelAttribute("sortPeopleByBirthYear")
+    public String sortPeopleByBirthYear() {
+        return sortPeopleByBirthYear;
     }
 }

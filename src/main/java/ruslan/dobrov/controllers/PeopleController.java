@@ -1,6 +1,7 @@
 package ruslan.dobrov.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,6 +10,9 @@ import ruslan.dobrov.models.Person;
 import ruslan.dobrov.services.PeopleService;
 import ruslan.dobrov.util.PersonValidator;
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/people")
@@ -34,10 +38,36 @@ public class PeopleController {
     }
 
     @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("people", peopleService.findAll());
+    public String index(Model model,
+                        @RequestParam(value = "page", defaultValue = "${default.page.number}") int page,
+                        @RequestParam(value = "recPerPage", defaultValue = "${default.records.per.page}") int recPerPage,
+                        @RequestParam(value = "sortBy",  defaultValue = "${default.people.sort.by}") String columnName) {
+        int totalPeople = peopleService.findAll().size();
+        int totalPages = (int) Math.ceil((double) totalPeople / recPerPage);
+
+        // Ограничьте номер страницы в диапазоне от 0 до (totalPages - 1).
+        page = Math.max(0, Math.min(page, totalPages - 1));
+
+        Page<Person> sortedPeople = peopleService.findAllWithPaginationAndSortByColumn(page, recPerPage, columnName);
+        model.addAttribute("people", sortedPeople);
+        model.addAttribute("page", page);
+        model.addAttribute("records", recPerPage);
+
+        // Создайте список кнопок для страниц.
+        List<Integer> pageNumbers = IntStream.range(0, totalPages)
+                .boxed()
+                .collect(Collectors.toList());
+
+        model.addAttribute("numberOfPages", pageNumbers);
+
         return "people/index";
     }
+
+//    @GetMapping()
+//    public String index(Model model) {
+//        model.addAttribute("people", peopleService.findAll());
+//        return "people/index";
+//    }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {

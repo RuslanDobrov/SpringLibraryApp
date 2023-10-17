@@ -2,8 +2,12 @@ package ruslan.dobrov.services;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ruslan.dobrov.models.Book;
 import ruslan.dobrov.models.Person;
 import ruslan.dobrov.models.PersonBook;
 import ruslan.dobrov.repositories.PeopleRepository;
@@ -33,6 +37,11 @@ public class PeopleService {
         List<Person> people = peopleRepository.findAll();
         Hibernate.initialize(people);
         return people;
+    }
+
+    public Page<Person> findAllWithPaginationAndSortByColumn(int page, int infPerPage, String columnName) {
+        PageRequest pageRequest = PageRequest.of(page, infPerPage, Sort.by(columnName));
+        return peopleRepository.findAll(pageRequest);
     }
 
     public Person findOne(int id) {

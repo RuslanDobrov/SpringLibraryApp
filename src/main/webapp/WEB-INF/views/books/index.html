@@ -8,33 +8,33 @@
                 <tr>
                     <th>
                         <a th:href="@{/books(page=${param.page[0]},
-                                       books_per_page=${param.books_per_page[0]},
-                                       sort_by=${sortByTitle})}">Title</a>
-                        <span th:if="${param.sort_by != null && param.sort_by.get(0).equals(sortByTitle)}">
+                                       recPerPage=${param.recPerPage[0]},
+                                       sortBy=${sortBooksByTitle})}">Title</a>
+                        <span th:if="${param.sortBy != null && param.sortBy.get(0).equals(sortBooksByTitle)}">
                                 <i class="bi bi-caret-down"></i>
                         </span>
                     </th>
                     <th>
                         <a th:href="@{/books(page=${param.page[0]},
-                                       books_per_page=${param.books_per_page[0]},
-                                       sort_by=${sortByAuthor})}">Author</a>
-                        <span th:if="${param.sort_by != null && param.sort_by.get(0).equals(sortByAuthor)}">
+                                       recPerPage=${param.recPerPage[0]},
+                                       sortBy=${sortBooksByAuthor})}">Author</a>
+                        <span th:if="${param.sortBy != null && param.sortBy.get(0).equals(sortBooksByAuthor)}">
                                 <i class="bi bi-caret-down"></i>
                         </span>
                     </th>
                     <th>
                         <a th:href="@{/books(page=${param.page[0]},
-                                       books_per_page=${param.books_per_page[0]},
-                                       sort_by=${sortByYearPublished})}">Year</a>
-                        <span th:if="${param.sort_by != null && param.sort_by.get(0).equals(sortByYearPublished)}">
+                                       recPerPage=${param.recPerPage[0]},
+                                       sortBy=${sortBooksByYearPublished})}">Year</a>
+                        <span th:if="${param.sortBy != null && param.sortBy.get(0).equals(sortBooksByYearPublished)}">
                                 <i class="bi bi-caret-down"></i>
                         </span>
                     </th>
                     <th>
                         <a th:href="@{/books(page=${param.page[0]},
-                                       books_per_page=${param.books_per_page[0]},
-                                       sort_by=${sortByTotalQuantity})}">Quantity</a>
-                        <span th:if="${param.sort_by != null && param.sort_by.get(0).equals(sortByTotalQuantity)}">
+                                       recPerPage=${param.recPerPage[0]},
+                                       sortBy=${sortBooksByTotalQuantity})}">Quantity</a>
+                        <span th:if="${param.sortBy != null && param.sortBy.get(0).equals(sortBooksByTotalQuantity)}">
                                 <i class="bi bi-caret-down"></i>
                         </span>
                     </th>
@@ -66,7 +66,7 @@
                 <a class="mx-2 btn btn-lg btn-light fw-bold border-white"
                    th:classappend="${pageNumber == page} ? 'bg-white' : 'bg-dark text-white'"
                    th:each="pageNumber : ${numberOfPages}"
-                   th:href="@{/books(page=${pageNumber}, books_per_page=${booksPerPage}, sort_by=${param.sort_by[0]})}"
+                   th:href="@{/books(page=${pageNumber}, recPerPage=${records}, sortBy=${param.sortBy[0]})}"
                    th:text="${pageNumber + 1}">Page number</a>
             </div>
             <div class="col-lg-2 col-md-2 col-sm-1"></div>

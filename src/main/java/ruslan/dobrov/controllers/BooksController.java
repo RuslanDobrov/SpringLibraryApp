@@ -2,7 +2,6 @@ package ruslan.dobrov.controllers;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,19 +46,19 @@ public class BooksController {
 
     @GetMapping()
     public String index(Model model,
-                        @RequestParam(value = "page", defaultValue = "${default.page}") int page,
-                        @RequestParam(value = "books_per_page", defaultValue = "${default.books.per.page}") int booksPerPage,
-                        @RequestParam(value = "sort_by",  defaultValue = "${default.sort.by}") String columnName) {
+                        @RequestParam(value = "page", defaultValue = "${default.page.number}") int page,
+                        @RequestParam(value = "recPerPage", defaultValue = "${default.records.per.page}") int recPerPage,
+                        @RequestParam(value = "sortBy",  defaultValue = "${default.books.sort.by}") String columnName) {
         int totalBooks = booksService.findAll().size();
-        int totalPages = (int) Math.ceil((double) totalBooks / booksPerPage);
+        int totalPages = (int) Math.ceil((double) totalBooks / recPerPage);
 
         // Ограничьте номер страницы в диапазоне от 0 до (totalPages - 1).
         page = Math.max(0, Math.min(page, totalPages - 1));
 
-        Page<Book> sortedBooks = booksService.findAllWithPaginationAndSortByColumn(page, booksPerPage, columnName);
+        Page<Book> sortedBooks = booksService.findAllWithPaginationAndSortByColumn(page, recPerPage, columnName);
         model.addAttribute("books", sortedBooks);
         model.addAttribute("page", page);
-        model.addAttribute("booksPerPage", booksPerPage);
+        model.addAttribute("records", recPerPage);
 
         // Создайте список кнопок для страниц.
         List<Integer> pageNumbers = IntStream.range(0, totalPages)

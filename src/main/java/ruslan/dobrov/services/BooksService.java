@@ -41,8 +41,8 @@ public class BooksService {
         return booksRepository.findAll();
     }
 
-    public Page<Book> findAllWithPaginationAndSortByColumn(int page, int booksPerPage, String columnName) {
-        PageRequest pageRequest = PageRequest.of(page, booksPerPage, Sort.by(columnName));
+    public Page<Book> findAllWithPaginationAndSortByColumn(int page, int recPerPage, String columnName) {
+        PageRequest pageRequest = PageRequest.of(page, recPerPage, Sort.by(columnName));
         return booksRepository.findAll(pageRequest);
     }
 
