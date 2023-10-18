@@ -14,7 +14,10 @@ import ruslan.dobrov.services.BooksService;
 import ruslan.dobrov.services.PeopleService;
 import ruslan.dobrov.services.PersonBookService;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -22,6 +25,8 @@ import java.util.stream.IntStream;
 @Controller
 @RequestMapping("/books")
 public class BooksController {
+    @PersistenceContext
+    private EntityManager entityManager;
 
     private final BooksService booksService;
     private final PeopleService peopleService;
@@ -72,15 +77,44 @@ public class BooksController {
 
     @GetMapping("/{book_id}")
     @Transactional
-    public String show(@PathVariable("book_id") int book_id, Model model, @ModelAttribute("person") Person person) {
+    public String show(@PathVariable("book_id") int book_id, Model model, @ModelAttribute("person") Person person, @RequestParam(value = "query", required = false) String keyword) {
         Book book = booksService.findOne(book_id);
         Hibernate.initialize(book.getOwners());
         model.addAttribute("book", book);
-        List<Person> bookOwner = book.getOwners();
-        model.addAttribute("people", peopleService.findAllPeopleWithoutThisBook(book_id));
-        model.addAttribute("owners", bookOwner);
+//        model.addAttribute("people", peopleService.findAllPeopleWithoutThisBook(book_id));
+//        if (keyword != null && !keyword.isEmpty()) {
+//            List<Person> people = entityManager.createQuery("SELECT p FROM Person p WHERE LOWER(p.fullName) LIKE LOWER(:keyword)", Person.class)
+//                    .setParameter("keyword", "%" + keyword + "%")
+//                    .getResultList();
+//            model.addAttribute("people", people);
+//        }
+        if (keyword != null && !keyword.isEmpty())
+            model.addAttribute("people", peopleService.searchPersonByNameWithoutBook(keyword, book_id));
+        model.addAttribute("owners", book.getOwners());
         return "books/show";
     }
+
+//    @GetMapping("/search")
+    public List<Person> searchPerson(/*@RequestParam(value = "query", required = false) */String query) {
+        if (query != null && !query.isEmpty()) {
+            List<Person> people = peopleService.searchPersonByName(query);
+            return people;
+        }
+        return Collections.emptyList(); // Вернуть пустой список, если нет результатов.
+    }
+
+//    @GetMapping("/{book_id}/search")
+//    public String searchPerson(Model model,
+//                               @RequestParam(value = "query", required = false) String keyword) {
+//        if (keyword != null && !keyword.isEmpty()) {
+//            List<Person> people = entityManager.createQuery("SELECT p FROM Person p WHERE LOWER(p.fullName) LIKE LOWER(:keyword)", Person.class)
+//                    .setParameter("keyword", "%" + keyword + "%")
+//                    .getResultList();
+//            model.addAttribute("people", people);
+//        }
+//
+//        return "books/show";
+//    }
 
     @GetMapping("/new")
     public String newBook(@ModelAttribute("book") Book book) {
@@ -125,10 +159,16 @@ public class BooksController {
     }
 
     @PatchMapping("/{book_id}/assign")
-    public String assign(@PathVariable("book_id") int book_id, @ModelAttribute("person") Person selectedPerson) {
-        booksService.assign(selectedPerson.getId(), book_id);
+    public String assign(@PathVariable("book_id") int book_id, @ModelAttribute("person_id") int person_id) {
+        booksService.assign(person_id, book_id);
         return "redirect:/books/" + book_id;
     }
+
+//    @PatchMapping("/{book_id}/assign")
+//    public String assign(@PathVariable("book_id") int book_id, @ModelAttribute("person") Person selectedPerson) {
+//        booksService.assign(selectedPerson.getId(), book_id);
+//        return "redirect:/books/" + book_id;
+//    }
 }
 
 /*

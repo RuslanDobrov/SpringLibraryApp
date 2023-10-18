@@ -83,6 +83,29 @@ public class PeopleService {
         return people;
     }
 
+    public List<Person> searchPersonByNameWithoutBook(String keyword, int book_id) {
+        String sqlQuery = "SELECT p.* " +
+                          "FROM Person p " +
+                          "WHERE lower(p.full_name) LIKE :keyword " +
+                          "AND NOT EXISTS (" +
+                          "    SELECT 1 " +
+                          "    FROM Person_Book pb " +
+                          "    WHERE pb.person_id = p.person_id " +
+                          "    AND pb.book_id = :bookId)";
+
+        List<Person> people = entityManager.createNativeQuery(sqlQuery, Person.class)
+                .setParameter("keyword", "%" + keyword.toLowerCase() + "%")
+                .setParameter("bookId", book_id)
+                .getResultList();
+
+        for (Person person : people) {
+            Hibernate.initialize(person.getBooks());
+        }
+
+        return people;
+    }
+
+
     public Boolean isExpired(PersonBook book) {
         Date today = new Date();
         return ChronoUnit.DAYS.between(book.getAssignDate().toInstant(), today.toInstant()) > 10;
