@@ -1,3 +1,4 @@
+<!-- header start -->
 <th:block xmlns:th="http://www.thymeleaf.org" th:fragment="header">
     <!doctype html>
     <html lang="en" class="h-100" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org">
@@ -37,6 +38,7 @@
             </div>
         </header>
 </th:block>
+<!-- header end -->
 
 <main class="px-3">
     <div class="row mt-5">
@@ -46,9 +48,29 @@
     </div>
 </main>
 
+<!-- pagination start -->
+<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="pagination">
+<div class="container" th:if="${numberOfPages != null}">
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-1"></div>
+        <div class="col-lg-8 col-md-8 col-sm-10 mt-2 text-center">
+            <a class="mx-2 btn btn-lg btn-light fw-bold border-white"
+               th:classappend="${pageNumber == page} ? 'bg-white' : 'bg-dark text-white'"
+               th:each="pageNumber : ${numberOfPages}"
+               th:href="@{/books(page=${pageNumber}, recPerPage=${records}, sortBy=${param.sortBy})}"
+               th:text="${pageNumber + 1}">Page number</a>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-1"></div>
+    </div>
+</div>
+</th:block>
+<!-- pagination end -->
+
+<!-- footer start -->
 <th:block xmlns:th="http://www.thymeleaf.org" th:fragment="footer">
     </div>
     <script src="/resources/js/bootstrap.bundle.min.js"></script>
     </body>
     </html>
 </th:block>
+<!-- footer end -->

@@ -13,9 +13,6 @@ import ruslan.dobrov.models.Person;
 import ruslan.dobrov.services.BooksService;
 import ruslan.dobrov.services.PeopleService;
 import ruslan.dobrov.services.PersonBookService;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
@@ -25,8 +22,6 @@ import java.util.stream.IntStream;
 @Controller
 @RequestMapping("/books")
 public class BooksController {
-    @PersistenceContext
-    private EntityManager entityManager;
 
     private final BooksService booksService;
     private final PeopleService peopleService;
@@ -40,12 +35,12 @@ public class BooksController {
     }
 
     @ModelAttribute("titlePage")
-    public String titlePage() {
+    public String getTitlePage() {
         return "Books";
     }
 
     @ModelAttribute("currentPage")
-    public String currentPage() {
+    public String getCurrentPage() {
         return "books";
     }
 

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-@ControllerAdvice
+/*@ControllerAdvice
 public class GlobalControllerAdvice {
 
     @Value("${default.page.number}")
@@ -31,7 +31,7 @@ public class GlobalControllerAdvice {
     @Value("${sort.books.by.totalQuantity}")
     private String sortBooksByTotalQuantity;
 
-    @Value("${sort.people.by.fullName}")
+    @Value("fullName")
     private String sortPeopleByFullName;
 
     @Value("${sort.people.by.birthYear}")
@@ -86,4 +86,4 @@ public class GlobalControllerAdvice {
     public String sortPeopleByBirthYear() {
         return sortPeopleByBirthYear;
     }
-}
+}*/

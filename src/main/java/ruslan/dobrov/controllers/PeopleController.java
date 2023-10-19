@@ -1,6 +1,7 @@
 package ruslan.dobrov.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,12 @@ import java.util.stream.IntStream;
 @RequestMapping("/people")
 public class PeopleController {
 
+    @Value("${title.page.people}")
+    private String titlePage;
+
+    @Value("${current.page.people}")
+    private String currentPage;
+
     private final PeopleService peopleService;
     private final PersonValidator personValidator;
 
@@ -27,20 +34,10 @@ public class PeopleController {
         this.personValidator = personValidator;
     }
 
-    @ModelAttribute("titlePage")
-    public String titlePage() {
-        return "People";
-    }
-
-    @ModelAttribute("currentPage")
-    public String currentPage() {
-        return "people";
-    }
-
     @GetMapping()
     public String index(Model model,
-                        @RequestParam(value = "page", defaultValue = "${default.page.number}") int page,
-                        @RequestParam(value = "recPerPage", defaultValue = "${default.records.per.page}") int recPerPage,
+                        @RequestParam(value = "page", defaultValue = "${default.page.number}") Integer page,
+                        @RequestParam(value = "recPerPage", defaultValue = "${default.records.per.page}") Integer recPerPage,
                         @RequestParam(value = "sortBy",  defaultValue = "${default.people.sort.by}") String columnName) {
         int totalPeople = peopleService.findAll().size();
         int totalPages = (int) Math.ceil((double) totalPeople / recPerPage);
@@ -59,6 +56,8 @@ public class PeopleController {
                 .collect(Collectors.toList());
 
         model.addAttribute("numberOfPages", pageNumbers);
+        model.addAttribute("titlePage", titlePage);
+        model.addAttribute("currentPage", currentPage);
 
         return "people/index";
     }
