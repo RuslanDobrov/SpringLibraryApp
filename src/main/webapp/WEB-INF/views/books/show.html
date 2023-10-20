@@ -1,115 +1,95 @@
-<!doctype html>
-<html lang="en" class="h-100" data-bs-theme="auto">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Spring Framework Library Application">
-    <meta name="author" content="Ruslan Dobrov">
-    <title>Show book</title>
-    <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/resources/css/cover.css" rel="stylesheet">
-</head>
-<body class="d-flex h-100 text-center text-bg-dark">
-<div class="w-100 h-100">
-    <header class="cover-container d-flex p-3 mx-auto flex-column mb-auto">
-        <div>
-            <h3 class="float-md-start mb-0">Spring Library Application</h3>
-            <nav class="nav nav-masthead justify-content-center float-md-end">
-                <a class="nav-link fw-bold py-1 px-0" href="/people">People</a>
-                <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="/books">Books</a>
-                <a class="nav-link fw-bold py-1 px-0" href="/">About</a>
-            </nav>
-        </div>
-    </header>
-    <main class="px-3">
-        <div class="row mt-5">
-            <div class="col-lg-3 col-md-3 col-sm-2"></div>
-            <div class="col-lg-6 col-md-6 col-sm-8">
-                <h1 th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"></h1>
-                <div class="container mt-2">
-                    <div class="row">
-                        <div class="col">
-                            <form class="lead d-inline-block me-lg-2" th:method="GET" th:action="@{/books/{id}/edit(id=${book.getId()})}">
-                                <input class="btn btn-lg btn-light fw-bold border-white bg-white" type="submit" value="Edit"/>
-                            </form>
-                            <form class="lead d-inline-block" th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
-                                <input class="btn btn-lg btn-danger fw-bold border-white bg-danger" type="submit" value="Delete"/>
-                            </form>
-                        </div>
+<th:block xmlns:th="http://www.thymeleaf.org" th:replace="templates/fragments :: header"></th:block>
+<main class="px-3">
+    <div class="row mt-5">
+        <div class="col-lg-3 col-md-3 col-sm-2"></div>
+        <div class="col-lg-6 col-md-6 col-sm-8">
+            <h1 th:text="${book.getTitle() + ', '
+                         + book.getAuthor() + ', '
+                         + book.getYearPublished()
+                         + '. Quantity: '
+                         + book.getTotalQuantity()}">
+            </h1>
+            <div class="container mt-2">
+                <div class="row">
+                    <div class="col">
+                        <form class="lead d-inline-block me-lg-2"
+                              th:method="GET" th:action="@{/books/{id}/edit(id=${book.getId()})}">
+                            <input class="btn btn-lg btn-light fw-bold border-white bg-white"
+                                   type="submit" value="Edit"/>
+                        </form>
+                        <form class="lead d-inline-block"
+                              th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
+                            <input class="btn btn-lg btn-danger fw-bold border-white bg-danger"
+                                   type="submit" value="Delete"/>
+                        </form>
                     </div>
                 </div>
-                <div class="lead mt-5" th:if="${owner}">
-                    <h3>The book is now: </h3>
-                    <p th:text="${owner.getFullName()}"></p>
-                    <form th:method="PATCH" th:action="@{/books/{id}/release(id=${book.getId()})}">
-                        <div class="row">
-                            <div class="col text-center">
-                                <p class="lead d-inline-block">
-                                    <input type="submit" class="btn btn-lg btn-light fw-bold border-white bg-white" value="Free book"/>
-                                </p>
-                            </div>
-                        </div>
-                    </form>
+            </div>
+
+            <div class="lead mt-5" th:if="${book.getTotalQuantity() != 0}">
+                <h3>To whom should she be assigned?</h3>
+
+                <div class="row mt-2 justify-content-center">
+                    <div class="col-lg-2 col-md-2 col-sm-1"></div>
+                    <div class="col-lg-8 col-md-8 col-sm-10 mt-2 d-flex justify-content-center">
+                        <form class="d-flex" role="search" th:method="GET" th:action="@{/books/{id}(id=${book.getId()})}">
+                            <input class="form-control form-control-lg me-2" type="search" placeholder="Enter the name..." aria-label="Search" th:name="query" />
+                            <button class="btn btn-lg btn-light fw-bold border-white bg-white" type="submit">Search</button>
+                        </form>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-1"></div>
                 </div>
-                <div class="lead mt-5" th:if="${people}">
-                    <h3>This book is free. To whom should she be assigned?</h3>
-                    <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}">
-                        <label for="person">Choose a person:</label>
-                        <select class="form-select mt-2" aria-label="Choose a person" th:object="${person}" th:field="*{id}" id="person">
-                            <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getFullName()}"></option>
-                        </select>
-                        <input type="submit" class="btn btn-lg btn-light fw-bold border-white bg-white mt-2" value="Assign book"/>
+
+                <div class="container mt-2" id="peopleTable"
+                     th:if="${people != null && !people.isEmpty()}">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-1"></div>
+                        <div class="col-lg-8 col-md-8 col-sm-10 mt-2 text-center">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Year of birth</th>
+                                    <th>Detail</th>
+                                </tr>
+                                </thead>
+                                <tbody th:each="person : ${people}">
+                                <tr class="align-middle">
+                                    <td th:text="${person.getFullName()}"></td>
+                                    <td th:text="${person.getBirthYear()}"></td>
+                                    <td>
+                                        <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}">
+                                            <input type="hidden" name="book_id" th:value="${book.getId()}" />
+                                            <input type="hidden" name="person_id" th:value="${person.getId()}" />
+                                            <input class="btn btn-md btn-primary"
+                                                   type="submit" value="Assign"/>
+                                        </form>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-1"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="lead mt-5" th:if="${!owners.isEmpty()}">
+                <h3>The book is now:</h3>
+                <div class="mt-2 mb-2" th:each="owner : ${owners}">
+                    <p class="display-inline" th:text="${owner.getFullName()}"></p>
+                    <form class="display-inline"
+                          th:method="PATCH"
+                          th:action="@{/books/{book_id}/release/{person_id}(book_id=${book.getId()}, person_id=${owner.getId()})}">
+                        <input class="btn btn-lg btn-light fw-bold border-white bg-white display-inline"
+                               type="submit" value="Free book"/>
                     </form>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-2"></div>
+
         </div>
-    </main>
-    <footer class="mt-auto text-white-50 fixed-bottom">
-        <p>Created by <a href="https://www.linkedin.com/in/ruslan-dobrov/" class="text-white">Ruslan Dobrov</a>, 2023</p>
-    </footer>
-</div>
-<script src="/resources/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Показать все книги</title>-->
-<!--</head>-->
-<!--<body>-->
-
-<!--    <p th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"/>-->
-
-<!--    <div th:if="${owner}">-->
-<!--        <span>Книга сейчас у: </span>-->
-<!--        <span th:text="${owner.getFullName()}"></span>-->
-<!--        <form th:method="PATCH" th:action="@{/books/{id}/release(id=${book.getId()})}">-->
-<!--            <input type="submit" value="Освободить книгу">-->
-<!--        </form>-->
-<!--    </div>-->
-
-<!--    <div th:if="${people}">-->
-<!--        <span>Эта книга совбодна. Кому назначить ее?</span>-->
-<!--        <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}">-->
-<!--            <label for="person">Выберите человека:</label>-->
-<!--            <select th:object="${person}" th:field="*{id}" id="person">-->
-<!--                <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getFullName()}"/>-->
-<!--            </select>-->
-<!--            <input type="submit" value="Назначить книгу" />-->
-<!--        </form>-->
-<!--    </div>-->
-
-<!--    <hr/>-->
-
-<!--    <form th:method="GET" th:action="@{/books/{id}/edit(id=${book.getId()})}">-->
-<!--        <input type="submit" value="Редактировать"/>-->
-<!--    </form>-->
-<!--    <form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">-->
-<!--        <input type="submit" value="Удалить"/>-->
-<!--    </form>-->
-
-<!--</body>-->
-<!--</html>-->
+        <div class="col-lg-3 col-md-3 col-sm-2"></div>
+    </div>
+</main>
+<th:block xmlns:th="http://www.thymeleaf.org" th:replace="templates/fragments :: footer"></th:block>

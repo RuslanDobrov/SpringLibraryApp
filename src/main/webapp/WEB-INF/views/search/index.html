@@ -1,0 +1,161 @@
+<th:block xmlns:th="http://www.thymeleaf.org" th:replace="templates/fragments :: header"></th:block>
+<main class="px-3 details">
+
+    <div class="row mt-5">
+        <div class="col-lg-2 col-md-2 col-sm-1"></div>
+        <div class="col-lg-8 col-md-8 col-sm-10 d-lg-flex justify-content-center">
+            <div class="btn-group switch-buttons" role="group" aria-label="Search options">
+                <button type="button"
+                        class="btn btn-lg btn-light fw-bold border-white switch-button bg-white"
+                        id="title">
+                    Title
+                </button>
+                <button type="button"
+                        class="btn btn-lg btn-light fw-bold border-white switch-button bg-white"
+                        id="author">
+                    Author
+                </button>
+                <button type="button"
+                        class="btn btn-lg btn-light fw-bold border-white switch-button bg-white"
+                        id="person">
+                    Person
+                </button>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-1"></div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-lg-2 col-md-2 col-sm-1"></div>
+        <div class="col-lg-8 col-md-8 col-sm-10 mt-2 d-lg-flex justify-content-center">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 d-flex" role="search"
+                      th:method="GET" th:action="@{/search}">
+                    <input class="form-control form-control-lg"
+                           type="search" placeholder="Enter a keyword..." aria-label="Search"
+                           th:name="query"/>
+                    <input class="form-control" id="searchOptionField"
+                           type="hidden" th:name="search-option" value=""/>
+                    <input class="btn btn-lg btn-light fw-bold border-white bg-white mx-2"
+                           type="submit" value="Search"/>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-1"></div>
+    </div>
+
+    <div class="container mt-2 text-center"
+         th:if="${(books != null && books.isEmpty()) || (people != null && people.isEmpty())}">
+        <p class="lead">Not found</p>
+    </div>
+
+    <div class="container mt-2"
+         th:if="${books != null && !books.isEmpty()}">
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-1"></div>
+            <div class="col-lg-8 col-md-8 col-sm-10 mt-2 text-center">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Owner</th>
+                        <th>Detail</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="book : ${books}">
+                    <tr class="align-middle">
+                        <td th:text="${book.getTitle()}"></td>
+                        <td th:text="${book.getAuthor()}"></td>
+                        <td th:if="${book.getOwners().isEmpty()}">no Owner</td>
+                        <td th:if="${!book.getOwners().isEmpty()}">
+                            <th:block th:each="owner: ${book.getOwners()}"
+                                      th:utext="${owner.getFullName().concat('<br/>')}">
+                            </th:block>
+                        </td>
+                        <td>
+                            <a type="button" class="btn btn-secondary"
+                               th:href="@{/books/{id}(id=${book.getId()})}">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-1"></div>
+        </div>
+    </div>
+
+    <div class="container mt-2"
+         th:if="${people != null && !people.isEmpty()}">
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-1"></div>
+            <div class="col-lg-8 col-md-8 col-sm-10 mt-2 text-center">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Year of birth</th>
+                        <th>Detail</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="person : ${people}">
+                    <tr class="align-middle">
+                        <td th:text="${person.getFullName()}"></td>
+                        <td th:text="${person.getBirthYear()}"></td>
+                        <td>
+                            <a type="button" class="btn btn-secondary"
+                               th:href="@{/people/{id}(id=${person.getId()})}">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-1"></div>
+        </div>
+    </div>
+
+</main>
+
+<script src="/resources/js/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".switch-button").click(function () {
+            $(".switch-button").removeClass("active").addClass("bg-white");
+            $(this).addClass("active").removeClass("bg-white");
+            var selectedOptionButton = $(this).attr("id");
+            localStorage.setItem("selectedOptionButton", selectedOptionButton);
+        });
+
+        var lastSelectedButton = localStorage.getItem("selectedOptionButton");
+        var searchOptionField = document.getElementById("searchOptionField");
+        if (lastSelectedButton) {
+            $("#" + lastSelectedButton).addClass("active").removeClass("bg-white");
+            searchOptionField.value = lastSelectedButton;
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var titleButton = document.getElementById("title");
+        var authorButton = document.getElementById("author");
+        var personButton = document.getElementById("person");
+        var searchOptionField = document.getElementById("searchOptionField");
+
+        titleButton.addEventListener("click", function () {
+            searchOptionField.value = "title";
+        });
+
+        authorButton.addEventListener("click", function () {
+            searchOptionField.value = "author";
+        });
+
+        personButton.addEventListener("click", function () {
+            searchOptionField.value = "person";
+        });
+    });
+</script>
+
+<th:block xmlns:th="http://www.thymeleaf.org" th:replace="templates/fragments :: footer"></th:block>
