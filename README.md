@@ -26,7 +26,7 @@ ___
 1. Create a database for the project:
 https://github.com/RuslanDobrov/SpringLibraryApp/blob/master/src/main/java/ruslan/dobrov/sql/schema.sql
 2. Rename database connection settings:
-   hibernate.properties.origin -> hibernate.properties
+   [hibernate.properties.origin](https://github.com/RuslanDobrov/SpringLibraryApp/blob/master/src/main/resources/hibernate.properties.origin) -> hibernate.properties
 3. Enter your settings in hibernate.properties
 ```properties
 # these settings are shown as an example
