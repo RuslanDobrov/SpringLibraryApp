@@ -5,22 +5,22 @@
         <div class="col-lg-8 col-md-8 col-sm-10">
             <form th:method="POST" th:action="@{/books}" th:object="${book}">
                 <div class="form-floating mb-3 error">
-                    <input class="form-control" type="text" id="title" th:field="*{title}" >
+                    <input class="form-control" type="text" id="title" th:field="*{title}"/>
                     <label class="text-dark" for="title">Title</label>
                     <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
                 </div>
                 <div class="form-floating mb-3 error">
-                    <input type="text" class="form-control" id="author" th:field="*{author}" >
+                    <input type="text" class="form-control" id="author" th:field="*{author}"/>
                     <label class="text-dark" for="author">Author</label>
                     <div class="error" th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></div>
                 </div>
                 <div class="form-floating mb-3 error">
-                    <input type="text" class="form-control" id="yearPublished" th:field="*{yearPublished}" >
+                    <input type="text" class="form-control" id="yearPublished" th:field="*{yearPublished}"/>
                     <label class="text-dark" for="yearPublished">Year of published</label>
                     <div class="error" th:if="${#fields.hasErrors('yearPublished')}" th:errors="*{yearPublished}"></div>
                 </div>
                 <div class="form-floating mb-3 error">
-                    <input type="text" class="form-control" id="totalQuantity" th:field="*{totalQuantity}" >
+                    <input type="text" class="form-control" id="totalQuantity" th:field="*{totalQuantity}"/>
                     <label class="text-dark" for="totalQuantity">Total quantity</label>
                     <div class="error" th:if="${#fields.hasErrors('totalQuantity')}" th:errors="*{totalQuantity}"></div>
                 </div>

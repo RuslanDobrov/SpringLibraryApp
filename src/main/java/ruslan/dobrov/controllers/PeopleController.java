@@ -19,11 +19,20 @@ import java.util.stream.IntStream;
 @RequestMapping("/people")
 public class PeopleController {
 
-    @Value("${title.page.people}")
-    private String titlePage;
+    @Value("${title.page.people.edit}")
+    private String editPageTitle;
 
-    @Value("${current.page.people}")
-    private String currentPage;
+    @Value("${title.page.people.index}")
+    private String indexPageTitle;
+
+    @Value("${title.page.people.new}")
+    private String newPageTitle;
+
+    @Value("${title.page.people.show}")
+    private String showPageTitle;
+
+    @Value("${section.people}")
+    private String sectionName;
 
     private final PeopleService peopleService;
     private final PersonValidator personValidator;
@@ -36,13 +45,13 @@ public class PeopleController {
 
     @GetMapping()
     public String index(Model model,
-                        @RequestParam(value = "page", defaultValue = "${default.page.number}") Integer page,
-                        @RequestParam(value = "recPerPage", defaultValue = "${default.records.per.page}") Integer recPerPage,
-                        @RequestParam(value = "sortBy",  defaultValue = "${default.people.sort.by}") String columnName) {
+                        @RequestParam(value = "page", defaultValue = "0") int page,
+                        @RequestParam(value = "recPerPage", defaultValue = "${records.per.page}") Integer recPerPage,
+                        @RequestParam(value = "sortBy",  defaultValue = "${sort.people.by.fullName}") String columnName) {
         int totalPeople = peopleService.findAll().size();
         int totalPages = (int) Math.ceil((double) totalPeople / recPerPage);
 
-        // Ограничьте номер страницы в диапазоне от 0 до (totalPages - 1).
+        // pagination
         page = Math.max(0, Math.min(page, totalPages - 1));
 
         Page<Person> sortedPeople = peopleService.findAllWithPaginationAndSortByColumn(page, recPerPage, columnName);
@@ -50,41 +59,40 @@ public class PeopleController {
         model.addAttribute("page", page);
         model.addAttribute("records", recPerPage);
 
-        // Создайте список кнопок для страниц.
+        // list of buttons for pages
         List<Integer> pageNumbers = IntStream.range(0, totalPages)
                 .boxed()
                 .collect(Collectors.toList());
 
         model.addAttribute("numberOfPages", pageNumbers);
-        model.addAttribute("titlePage", titlePage);
-        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("titlePage", indexPageTitle);
+        model.addAttribute("sectionName", sectionName);
 
         return "people/index";
     }
 
-//    @GetMapping()
-//    public String index(Model model) {
-//        model.addAttribute("people", peopleService.findAll());
-//        return "people/index";
-//    }
-
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
+    public String show(Model model, @PathVariable("id") int id) {
         model.addAttribute("person", peopleService.findOne(id));
         model.addAttribute("books", peopleService.getBooksByPersonId(id));
+        model.addAttribute("titlePage", showPageTitle);
+        model.addAttribute("sectionName", sectionName);
         return "people/show";
     }
 
     @GetMapping("/new")
-    public String newPerson(@ModelAttribute("person") Person person) {
+    public String newPerson(Model model, @ModelAttribute("person") Person person) {
+        model.addAttribute("titlePage", newPageTitle);
+        model.addAttribute("sectionName", sectionName);
         return "people/new";
     }
 
     @PostMapping()
     public String create(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
         personValidator.validate(person, bindingResult);
-        if (bindingResult.hasErrors())
+        if (bindingResult.hasErrors()) {
             return "people/new";
+        }
         peopleService.save(person);
         return "redirect:/people";
     }
@@ -92,14 +100,17 @@ public class PeopleController {
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
         model.addAttribute("person", peopleService.findOne(id));
+        model.addAttribute("titlePage", editPageTitle);
+        model.addAttribute("sectionName", sectionName);
         return "people/edit";
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult,
-                         @PathVariable("id") int id) {
-        if (bindingResult.hasErrors())
+    public String update(@ModelAttribute("person") @Valid Person person,
+                         BindingResult bindingResult, @PathVariable("id") int id) {
+        if (bindingResult.hasErrors()) {
             return "people/edit";
+        }
         peopleService.update(id, person);
         return "redirect:/people";
     }
@@ -110,72 +121,3 @@ public class PeopleController {
         return "redirect:/people";
     }
 }
-
-
-/*
-@Controller
-@RequestMapping("/people")
-public class PeopleController {
-
-    private final PersonService personService;
-    private final PersonValidator personValidator;
-
-    @Autowired
-    public PeopleController(PersonService personService, PersonValidator personValidator) {
-        this.personService = personService;
-        this.personValidator = personValidator;
-    }
-
-    @GetMapping()
-    public String index(Model model) {
-        List<Person> people = personService.findAll();
-        model.addAttribute("people", people);
-        return "people/index";
-    }
-
-    @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
-        Person person = personService.findOne(id);
-        model.addAttribute("person", person);
-
-        List<PersonBook> personBooks = personService.getPersonBooks(id);
-        model.addAttribute("personBooks", personBooks);
-
-        return "people/show";
-    }
-
-    @GetMapping("/new")
-    public String newPerson(@ModelAttribute("person") Person person) {
-        return "people/new";
-    }
-
-    @PostMapping()
-    public String create(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
-        personValidator.validate(person, bindingResult);
-        if (bindingResult.hasErrors())
-            return "people/new";
-        personService.save(person);
-        return "redirect:/people";
-    }
-
-    @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("person", personService.findOne(id));
-        return "people/edit";
-    }
-
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult,
-                         @PathVariable("id") int id) {
-        if (bindingResult.hasErrors())
-            return "people/edit";
-        personService.update(id, person);
-        return "redirect:/people";
-    }
-
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") int id) {
-        personService.delete(id);
-        return "redirect:/people";
-    }
-}*/

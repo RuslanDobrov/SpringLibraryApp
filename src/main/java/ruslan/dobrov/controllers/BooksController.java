@@ -2,6 +2,7 @@ package ruslan.dobrov.controllers;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,9 +13,7 @@ import ruslan.dobrov.models.Book;
 import ruslan.dobrov.models.Person;
 import ruslan.dobrov.services.BooksService;
 import ruslan.dobrov.services.PeopleService;
-import ruslan.dobrov.services.PersonBookService;
 import javax.validation.Valid;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -23,36 +22,39 @@ import java.util.stream.IntStream;
 @RequestMapping("/books")
 public class BooksController {
 
+    @Value("${title.page.books.edit}")
+    private String editPageTitle;
+
+    @Value("${title.page.books.index}")
+    private String indexPageTitle;
+
+    @Value("${title.page.books.new}")
+    private String newPageTitle;
+
+    @Value("${title.page.books.show}")
+    private String showPageTitle;
+
+    @Value("${section.books}")
+    private String sectionName;
+
     private final BooksService booksService;
     private final PeopleService peopleService;
-    private final PersonBookService personBookService;
 
     @Autowired
-    public BooksController(BooksService booksServices, PeopleService peopleService, PersonBookService personBookService) {
+    public BooksController(BooksService booksServices, PeopleService peopleService) {
         this.booksService = booksServices;
         this.peopleService = peopleService;
-        this.personBookService = personBookService;
-    }
-
-    @ModelAttribute("titlePage")
-    public String getTitlePage() {
-        return "Books";
-    }
-
-    @ModelAttribute("currentPage")
-    public String getCurrentPage() {
-        return "books";
     }
 
     @GetMapping()
     public String index(Model model,
-                        @RequestParam(value = "page", defaultValue = "${default.page.number}") int page,
-                        @RequestParam(value = "recPerPage", defaultValue = "${default.records.per.page}") int recPerPage,
-                        @RequestParam(value = "sortBy",  defaultValue = "${default.books.sort.by}") String columnName) {
+                        @RequestParam(value = "page", defaultValue = "0") int page,
+                        @RequestParam(value = "recPerPage", defaultValue = "${records.per.page}") int recPerPage,
+                        @RequestParam(value = "sortBy",  defaultValue = "${sort.books.by.title}") String columnName) {
         int totalBooks = booksService.findAll().size();
         int totalPages = (int) Math.ceil((double) totalBooks / recPerPage);
 
-        // Ограничьте номер страницы в диапазоне от 0 до (totalPages - 1).
+        // pagination
         page = Math.max(0, Math.min(page, totalPages - 1));
 
         Page<Book> sortedBooks = booksService.findAllWithPaginationAndSortByColumn(page, recPerPage, columnName);
@@ -60,59 +62,40 @@ public class BooksController {
         model.addAttribute("page", page);
         model.addAttribute("records", recPerPage);
 
-        // Создайте список кнопок для страниц.
+        // list of buttons for pages
         List<Integer> pageNumbers = IntStream.range(0, totalPages)
                 .boxed()
                 .collect(Collectors.toList());
 
         model.addAttribute("numberOfPages", pageNumbers);
+        model.addAttribute("titlePage", indexPageTitle);
+        model.addAttribute("sectionName", sectionName);
 
         return "books/index";
     }
 
     @GetMapping("/{book_id}")
     @Transactional
-    public String show(@PathVariable("book_id") int book_id, Model model, @ModelAttribute("person") Person person, @RequestParam(value = "query", required = false) String keyword) {
+    public String show(Model model,
+                       @PathVariable("book_id") int book_id,
+                       @ModelAttribute("person") Person person,
+                       @RequestParam(value = "query", required = false) String keyword) {
         Book book = booksService.findOne(book_id);
         Hibernate.initialize(book.getOwners());
         model.addAttribute("book", book);
-//        model.addAttribute("people", peopleService.findAllPeopleWithoutThisBook(book_id));
-//        if (keyword != null && !keyword.isEmpty()) {
-//            List<Person> people = entityManager.createQuery("SELECT p FROM Person p WHERE LOWER(p.fullName) LIKE LOWER(:keyword)", Person.class)
-//                    .setParameter("keyword", "%" + keyword + "%")
-//                    .getResultList();
-//            model.addAttribute("people", people);
-//        }
-        if (keyword != null && !keyword.isEmpty())
+        if (keyword != null && !keyword.isEmpty()) {
             model.addAttribute("people", peopleService.searchPersonByNameWithoutBook(keyword, book_id));
+        }
         model.addAttribute("owners", book.getOwners());
+        model.addAttribute("titlePage", showPageTitle);
+        model.addAttribute("sectionName", sectionName);
         return "books/show";
     }
 
-//    @GetMapping("/search")
-    public List<Person> searchPerson(/*@RequestParam(value = "query", required = false) */String query) {
-        if (query != null && !query.isEmpty()) {
-            List<Person> people = peopleService.searchPersonByName(query);
-            return people;
-        }
-        return Collections.emptyList(); // Вернуть пустой список, если нет результатов.
-    }
-
-//    @GetMapping("/{book_id}/search")
-//    public String searchPerson(Model model,
-//                               @RequestParam(value = "query", required = false) String keyword) {
-//        if (keyword != null && !keyword.isEmpty()) {
-//            List<Person> people = entityManager.createQuery("SELECT p FROM Person p WHERE LOWER(p.fullName) LIKE LOWER(:keyword)", Person.class)
-//                    .setParameter("keyword", "%" + keyword + "%")
-//                    .getResultList();
-//            model.addAttribute("people", people);
-//        }
-//
-//        return "books/show";
-//    }
-
     @GetMapping("/new")
-    public String newBook(@ModelAttribute("book") Book book) {
+    public String newBook(Model model, @ModelAttribute("book") Book book) {
+        model.addAttribute("titlePage", newPageTitle);
+        model.addAttribute("sectionName", sectionName);
         return "books/new";
     }
 
@@ -128,6 +111,8 @@ public class BooksController {
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
         model.addAttribute("book", booksService.findOne(id));
+        model.addAttribute("titlePage", editPageTitle);
+        model.addAttribute("sectionName", sectionName);
         return "books/edit";
     }
 
@@ -158,114 +143,4 @@ public class BooksController {
         booksService.assign(person_id, book_id);
         return "redirect:/books/" + book_id;
     }
-
-//    @PatchMapping("/{book_id}/assign")
-//    public String assign(@PathVariable("book_id") int book_id, @ModelAttribute("person") Person selectedPerson) {
-//        booksService.assign(selectedPerson.getId(), book_id);
-//        return "redirect:/books/" + book_id;
-//    }
 }
-
-/*
-@Controller
-@RequestMapping("/books")
-public class BooksController {
-
-    private final BookService bookService;
-    private final PersonService personService;
-    private final PersonBookService personBookService;
-
-    @Autowired
-    public BooksController(BookService bookService, PersonService personService, PersonBookService personBookService) {
-        this.bookService = bookService;
-        this.personService = personService;
-        this.personBookService = personBookService;
-    }
-
-    @GetMapping()
-    public String index(Model model,
-                        @RequestParam(value = "page", defaultValue = "-1", required = false) int page,
-                        @RequestParam(value = "books_per_page", defaultValue = "-1", required = false) int booksPerPage,
-                        @RequestParam(value = "sort_by", defaultValue = "", required = false) String columnName) {
-        if (page != -1 && booksPerPage != -1) {
-            model.addAttribute("books", bookService.findAllWithPagination(page, booksPerPage));
-            model.addAttribute("page", page);
-            model.addAttribute("booksPerPage", booksPerPage);
-            if (bookService.findAll().size() > 10) {
-                model.addAttribute("numberOfPages",
-                        IntStream.range(
-                                page > 5 ? (page - 5) : 0,
-                                (bookService.findAll().size() - page) > 5 ? (page + 5) : bookService.findAll().size()
-                        ).boxed().collect(Collectors.toList()));
-            } else {
-                model.addAttribute("numberOfPages", IntStream.range(0, bookService.findAll().size() / booksPerPage).boxed().collect(Collectors.toList()));
-            }
-        } else if (!columnName.isEmpty()) {
-            model.addAttribute("books", bookService.findAllWithSortByColumn(columnName));
-        } else {
-            model.addAttribute("books", bookService.findAll());
-        }
-        return "books/index";
-    }
-
-    @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
-        Book book = bookService.findOne(id);
-        model.addAttribute("book", book);
-        Person bookOwner = book.getOwner();
-        if (bookOwner != null) {
-            model.addAttribute("owner", bookOwner);
-        } else {
-            List<Person> people = personService.findAll();
-            model.addAttribute("people", people);
-        }
-        return "books/show";
-    }
-
-    @GetMapping("/new")
-    public String newBook(@ModelAttribute("book") Book book) {
-        return "books/new";
-    }
-
-    @PostMapping()
-    public String create(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
-            return "books/new";
-        bookService.save(book);
-        return "redirect:/books";
-    }
-
-    @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("book", bookService.findOne(id));
-        return "books/edit";
-    }
-
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult,
-                         @PathVariable("id") int id) {
-        if (bindingResult.hasErrors())
-            return "books/edit";
-        bookService.update(id, book);
-        return "redirect:/books";
-    }
-
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") int id) {
-        bookService.delete(id);
-        return "redirect:/books";
-    }
-
-    @PatchMapping("/{id}/release")
-    public String release(@PathVariable("id") int id) {
-        bookService.release(id);
-        return "redirect:/books/" + id;
-    }
-
-    @PatchMapping("/{id}/assign")
-    public String assign(@PathVariable("id") int id, @RequestParam("personId") int personId) {
-        Person selectedPerson = personService.findOne(personId);
-        bookService.assign(id, selectedPerson);
-        return "redirect:/books/" + id;
-    }
-}*/

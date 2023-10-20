@@ -5,7 +5,7 @@
         <div class="col-lg-8 col-md-8 col-sm-10">
             <form th:method="PATCH" th:action="@{/people/{id}(id=${person.getId()})}" th:object="${person}">
                 <div class="form-floating mb-3 error">
-                    <input class="form-control" id="fullName" th:field="*{fullName}"/>
+                    <input class="form-control" type="text" id="fullName" th:field="*{fullName}"/>
                     <label class="text-dark" for="fullName">Full name</label>
                     <div class="error" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></div>
                 </div>

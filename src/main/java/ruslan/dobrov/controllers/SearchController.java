@@ -1,16 +1,22 @@
 package ruslan.dobrov.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ruslan.dobrov.services.BooksService;
 import ruslan.dobrov.services.PeopleService;
 
-
 @Controller
 @RequestMapping("/search")
 public class SearchController {
+
+    @Value("${title.page.search.index}")
+    private String indexPageTitle;
+
+    @Value("${section.search}")
+    private String sectionName;
 
     private final BooksService booksServices;
     private final PeopleService peopleService;
@@ -19,16 +25,6 @@ public class SearchController {
     public SearchController(BooksService booksServices, PeopleService peopleService) {
         this.booksServices = booksServices;
         this.peopleService = peopleService;
-    }
-
-    @ModelAttribute("titlePage")
-    public String titlePage() {
-        return "Search";
-    }
-
-    @ModelAttribute("currentPage")
-    public String currentPage() {
-        return "search";
     }
 
     @GetMapping()
@@ -46,6 +42,8 @@ public class SearchController {
                 model.addAttribute("people", peopleService.searchPersonByName(query));
             }
         }
+        model.addAttribute("titlePage", indexPageTitle);
+        model.addAttribute("sectionName", sectionName);
         return "search/index";
     }
 }

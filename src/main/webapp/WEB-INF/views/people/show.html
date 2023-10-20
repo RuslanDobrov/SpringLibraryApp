@@ -20,9 +20,11 @@
                     </div>
                 </div>
             </div>
+
             <div class="lead mt-5" th:if="${books.isEmpty()}">
                 <p>The person hasn't got any books yet</p>
             </div>
+
             <div class="lead mt-5" th:if="${!books.isEmpty()}">
                 <h3>Books:</h3>
                 <table class="table">
@@ -44,7 +46,8 @@
                         <td th:if="${!book.getExpired()}" th:text="No"></td>
                         <td>
                             <form th:method="PATCH"
-                                  th:action="@{/books/{book_id}/release/{person_id}(book_id=${book.getBook().getId()}, person_id=${person.getId()})}">
+                                  th:action="@{/books/{book_id}/release/{person_id}(book_id=${book.getBook().getId()},
+                                  person_id=${person.getId()})}">
                                 <input class="btn btn-md btn-warning"
                                        type="submit" value="Release"/>
                             </form>

@@ -10,7 +10,7 @@
                     <div class="error" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></div>
                 </div>
                 <div class="form-floating mb-3 error">
-                    <input type="text" class="form-control" id="birthYear" th:field="*{birthYear}"/>
+                    <input class="form-control" type="text" id="birthYear" th:field="*{birthYear}"/>
                     <label class="text-dark" for="birthYear">Year of birth</label>
                     <div class="error" th:if="${#fields.hasErrors('birthYear')}" th:errors="*{birthYear}"></div>
                 </div>

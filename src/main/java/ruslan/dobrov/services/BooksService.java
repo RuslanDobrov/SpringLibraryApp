@@ -13,7 +13,6 @@ import ruslan.dobrov.models.PersonBook;
 import ruslan.dobrov.repositories.BooksRepository;
 import ruslan.dobrov.repositories.PeopleRepository;
 import ruslan.dobrov.repositories.PersonBookRepository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.*;
@@ -21,6 +20,7 @@ import java.util.*;
 @Service
 @Transactional(readOnly = true)
 public class BooksService {
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -52,7 +52,8 @@ public class BooksService {
     }
 
     public List<Book> searchBooksByTitle(String keyword) {
-        List<Book> books = entityManager.createQuery("SELECT b FROM Book b WHERE LOWER(b.title) LIKE LOWER(:keyword)", Book.class)
+        List<Book> books = entityManager
+                .createQuery("SELECT b FROM Book b WHERE LOWER(b.title) LIKE LOWER(:keyword)", Book.class)
                 .setParameter("keyword", "%" + keyword + "%")
                 .getResultList();
         for (Book book : books) {
@@ -62,7 +63,8 @@ public class BooksService {
     }
 
     public List<Book> searchBooksByAuthor(String keyword) {
-        List<Book> books = entityManager.createQuery("SELECT b FROM Book b WHERE LOWER(b.author) LIKE LOWER(:keyword)", Book.class)
+        List<Book> books = entityManager
+                .createQuery("SELECT b FROM Book b WHERE LOWER(b.author) LIKE LOWER(:keyword)", Book.class)
                 .setParameter("keyword", "%" + keyword + "%")
                 .getResultList();
         for (Book book : books) {

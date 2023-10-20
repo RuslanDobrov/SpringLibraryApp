@@ -2,7 +2,6 @@ package ruslan.dobrov.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import ruslan.dobrov.models.PersonBook;
-
 import java.util.List;
 
 public interface PersonBookRepository extends JpaRepository<PersonBook, Integer> {

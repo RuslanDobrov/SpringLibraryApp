@@ -21,19 +21,18 @@
                     <a class="nav-link" href="/">Spring Library Application</a>
                 </h3>
                 <nav class="nav nav-masthead justify-content-center float-md-end">
-                    <a class="nav-link fw-bold py-1 px-0"
-                       th:classappend="${currentPage == 'people'} ? 'active' : ''"
-                       th:href="@{/people(page=${defaultPageNumber},
-                                   recPerPage=${defaultRecordsPerPage},
-                                   sortBy=${defaultPeopleSortBy})}">People</a>
-                    <a class="nav-link fw-bold py-1 px-0"
-                       th:classappend="${currentPage == 'books'} ? 'active' : ''"
-                       th:href="@{/books(page=${defaultPageNumber},
-                                   recPerPage=${defaultRecordsPerPage},
-                                   sortBy=${defaultBooksSortBy})}">Books</a>
-                    <a class="nav-link fw-bold py-1 px-0"
-                       th:classappend="${currentPage == 'search'} ? 'active' : ''"
-                       href="/search">Search</a>
+                    <a class="nav-link fw-bold py-1 px-0" href="/people"
+                       th:classappend="${sectionName == @environment.getProperty('section.people')} ? 'active' : ''">
+                        People
+                    </a>
+                    <a class="nav-link fw-bold py-1 px-0" href="/books"
+                       th:classappend="${sectionName == @environment.getProperty('section.books')} ? 'active' : ''">
+                        Books
+                    </a>
+                    <a class="nav-link fw-bold py-1 px-0" href="/search"
+                       th:classappend="${sectionName == @environment.getProperty('section.search')} ? 'active' : ''">
+                        Search
+                    </a>
                 </nav>
             </div>
         </header>
@@ -47,24 +46,6 @@
         <div class="col-lg-3 col-md-3 col-sm-2"></div>
     </div>
 </main>
-
-<!-- pagination start -->
-<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="pagination">
-<div class="container" th:if="${numberOfPages != null}">
-    <div class="row">
-        <div class="col-lg-2 col-md-2 col-sm-1"></div>
-        <div class="col-lg-8 col-md-8 col-sm-10 mt-2 text-center">
-            <a class="mx-2 btn btn-lg btn-light fw-bold border-white"
-               th:classappend="${pageNumber == page} ? 'bg-white' : 'bg-dark text-white'"
-               th:each="pageNumber : ${numberOfPages}"
-               th:href="@{/books(page=${pageNumber}, recPerPage=${records}, sortBy=${param.sortBy})}"
-               th:text="${pageNumber + 1}">Page number</a>
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-1"></div>
-    </div>
-</div>
-</th:block>
-<!-- pagination end -->
 
 <!-- footer start -->
 <th:block xmlns:th="http://www.thymeleaf.org" th:fragment="footer">
