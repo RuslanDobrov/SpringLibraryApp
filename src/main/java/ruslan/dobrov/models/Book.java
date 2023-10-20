@@ -31,13 +31,14 @@ public class Book {
 
     @Column(name = "year_published")
     @Min(value = 0, message = "Year of publication must be greater than 0")
-    private int yearPublished;
+    private Integer yearPublished;
 
     @ManyToMany(mappedBy = "books")
     private List<Person> owners;
 
     @Column(name = "total_quantity")
-    private int totalQuantity;
+    @Min(value = 0, message = "Quantity must be greater than 0")
+    private Integer totalQuantity;
 
     public Book() {}
 
@@ -72,7 +73,7 @@ public class Book {
         this.author = author;
     }
 
-    public int getYearPublished() {
+    public Integer getYearPublished() {
         return yearPublished;
     }
 
@@ -88,7 +89,7 @@ public class Book {
         this.owners = owners;
     }
 
-    public int getTotalQuantity() {
+    public Integer getTotalQuantity() {
         return totalQuantity;
     }
 

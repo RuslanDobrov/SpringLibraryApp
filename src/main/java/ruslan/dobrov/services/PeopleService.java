@@ -2,6 +2,7 @@ package ruslan.dobrov.services;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -19,6 +20,9 @@ import java.util.*;
 @Service
 @Transactional(readOnly = true)
 public class PeopleService {
+
+    @Value("${days.for.expire}")
+    private String daysForExpire;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -97,7 +101,8 @@ public class PeopleService {
 
     public Boolean isExpired(PersonBook book) {
         Date today = new Date();
-        return ChronoUnit.DAYS.between(book.getAssignDate().toInstant(), today.toInstant()) > 10;
+        return ChronoUnit.DAYS.between(book.getAssignDate().toInstant(),
+                today.toInstant()) > Integer.parseInt(daysForExpire);
     }
 
     public Person getPersonByFullName(String fullName) {
