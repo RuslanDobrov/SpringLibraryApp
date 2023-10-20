@@ -25,7 +25,7 @@ public class Person {
 
     @Column(name = "birth_year")
     @Min(value = 1900, message = "Year of birth cannot be less than 1900")
-    private int birthYear;
+    private Integer birthYear;
 
     @ManyToMany
     @JoinTable(
@@ -58,7 +58,7 @@ public class Person {
         this.fullName = fullName;
     }
 
-    public int getBirthYear() {
+    public Integer getBirthYear() {
         return birthYear;
     }
 
