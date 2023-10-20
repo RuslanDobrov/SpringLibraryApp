@@ -24,7 +24,7 @@ The system of library accounting of issued books. The system allows:
 ___
 ## How use
 1. Create a database for the project:
-   [schema.sql](https://github.com/RuslanDobrov/SpringLibraryApp/blob/master/src/main/java/ruslan/dobrov/sql/schema.sql)
+   [schema.sql](src/main/resources/application.properties)
 2. Rename database connection settings:
    [hibernate.properties.origin](https://github.com/RuslanDobrov/SpringLibraryApp/blob/master/src/main/resources/hibernate.properties.origin) -> hibernate.properties
 3. Enter your settings in hibernate.properties
