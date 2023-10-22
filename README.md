@@ -9,6 +9,7 @@
 ![java version](https://img.shields.io/badge/Maven-grey)
 ![java version](https://img.shields.io/badge/Tomcat-9-blue)
 ![java version](https://img.shields.io/badge/GitHub-grey)
+![java version](https://img.shields.io/badge/Docker-grey)
 ___
 
 # Spring Library Application
@@ -24,16 +25,26 @@ The system of library accounting of issued books. The system allows:
 ___
 ## How use
 1. Create a database for the project:
-   [schema.sql](src/main/resources/application.properties)
-2. Rename database connection settings:
+   [schema.sql](src/main/java/ruslan/dobrov/sql/schema.sql)
+3. Rename database connection settings:
    [hibernate.properties.origin](https://github.com/RuslanDobrov/SpringLibraryApp/blob/master/src/main/resources/hibernate.properties.origin) -> hibernate.properties
-3. Enter your settings in hibernate.properties
+4. Enter your settings in hibernate.properties
 ```properties
 # these settings are shown as an example
 driver=org.postgresql.Driver
 url=jdbc:postgresql://web.site:5432/spring_library_db
 userDB=postgres
 password=postgres
+```
+___
+## How run in Docker
+1. Download schema.sql:
+   [schema.sql](src/main/java/ruslan/dobrov/sql/schema.sql)
+2. Download docker-compose.yml:
+3. Use command:
+```cmd
+docker pull ruslandobrov/spring-library-app:1.0
+docker-compose up
 ```
 ___
 ## Project screenshots
