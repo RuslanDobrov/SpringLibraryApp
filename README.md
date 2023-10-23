@@ -23,11 +23,12 @@ The system of library accounting of issued books. The system allows:
 - pagination and sorting by name or birthday for people
 - input data validation for books and people
 ___
-## How use
+
+## How to use
 1. Create a database for the project:
-   [schema.sql](src/main/java/ruslan/dobrov/sql/schema.sql)
+   [schema.sql](sql-scripts/schema.sql)
 3. Rename database connection settings:
-   [hibernate.properties.origin](https://github.com/RuslanDobrov/SpringLibraryApp/blob/master/src/main/resources/hibernate.properties.origin) -> hibernate.properties
+   [hibernate.properties.origin](src/main/resources/hibernate.properties.origin) -> hibernate.properties
 4. Enter your settings in hibernate.properties
 ```properties
 # these settings are shown as an example
@@ -37,13 +38,22 @@ userDB=postgres
 password=postgres
 ```
 ___
-## How run in Docker
+
+## How to run in Docker
 1. Download schema.sql:
-   [schema.sql](src/main/java/ruslan/dobrov/sql/schema.sql)
+   [schema.sql](sql-scripts/schema.sql)
 2. Download docker-compose.yml:
-3. Use command:
-```cmd
+   [docker-compose.yml](docker-compose.yml)
+3. **If necessary**, change the path to the file *schema.sql* to your path in the *docker-compose.yml* file:
+```
+ volumes:
+   - {TO_SCHEMA.SQL_PATH}:/docker-entrypoint-initdb.d
+```
+4. Use commands:
+```
 docker pull ruslandobrov/spring-library-app:1.0
+```
+```
 docker-compose up
 ```
 ___
