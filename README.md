@@ -23,6 +23,7 @@ The system of library accounting of issued books. The system allows:
 - pagination and sorting by name or birthday for people
 - input data validation for books and people
 ___
+
 ## How to use
 1. Create a database for the project:
    [schema.sql](sql-scripts/schema.sql)
@@ -37,6 +38,7 @@ userDB=postgres
 password=postgres
 ```
 ___
+
 ## How to run in Docker
 1. Download schema.sql:
    [schema.sql](sql-scripts/schema.sql)
