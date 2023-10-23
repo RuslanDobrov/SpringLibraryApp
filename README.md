@@ -26,7 +26,7 @@ ___
 
 ## How to use
 1. Create a database for the project:
-   [schema.sql](sql-scripts/schema.sql)
+   [schema.sql](src/main/java/ruslan/dobrov/sql-scripts/schema.sql)
 3. Rename database connection settings:
    [hibernate.properties.origin](src/main/resources/hibernate.properties.origin) -> hibernate.properties
 4. Enter your settings in hibernate.properties
@@ -41,7 +41,7 @@ ___
 
 ## How to run in Docker
 1. Download schema.sql:
-   [schema.sql](sql-scripts/schema.sql)
+   [schema.sql](src/main/java/ruslan/dobrov/sql-scripts/schema.sql)
 2. Download docker-compose.yml:
    [docker-compose.yml](docker-compose.yml)
 3. **If necessary**, change the path to the file *schema.sql* to your path in the *docker-compose.yml* file:
